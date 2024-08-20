@@ -31,15 +31,6 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
-                },
-                {
-                    "name": "Decelerate",
-                    "type": "Value",
-                    "id": "f03091b6-2e38-4899-8180-54635757b8d0",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -78,23 +69,23 @@
                 },
                 {
                     "name": "",
+                    "id": "729109ed-ae60-4bae-84ce-f944e5a85a35",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "Accelerate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "75b92ba9-bbda-42d0-9e6c-76fb0b311e66",
                     "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "Handbreak",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "c09101ec-8852-4278-b1e1-6411fc35ba55",
-                    "path": "<Keyboard>/s",
-                    "interactions": "",
-                    "processors": "Scale(factor=-1)",
-                    "groups": "",
-                    "action": "Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

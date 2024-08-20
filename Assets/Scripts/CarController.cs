@@ -5,6 +5,12 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
 
+public enum ControlType
+{
+    Keyboard,
+    Buttons
+}
+
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
 {
@@ -16,6 +22,8 @@ public class CarController : MonoBehaviour
 
     [Space(10)] public Transform frontLeftTransform, frontRightTransform;
     public Transform rearLeftTransform, rearRightTransform;
+
+    [SerializeField] private ControlType controlType;
 
     [Space(10)] [SerializeField] private Transform com;
     [SerializeField] private float maxSteerAngle = 30f;
@@ -44,10 +52,14 @@ public class CarController : MonoBehaviour
 
     public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance * driftTolerance;
     private bool isDriftingApplied = false;
+    public ControlType ControlType => controlType;
+
+    private bool autoGas = false;
 
     public bool IsControllable { get; private set; } = false;
 
     [Inject] private GameTimer _gameTimer;
+    [Inject] private HUD hud;
 
     private void Start()
     {
@@ -55,6 +67,14 @@ public class CarController : MonoBehaviour
         SetupWheels();
         rb = GetComponent<Rigidbody>();
         _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
+
+        UpdateControlType();
+    }
+
+    private void UpdateControlType()
+    {
+        hud.SetControlButtonsActive(controlType == ControlType.Buttons);
+        autoGas = controlType == ControlType.Buttons;
     }
 
     private void OnEnable()
@@ -65,8 +85,6 @@ public class CarController : MonoBehaviour
         inputActions["Driving/Accelerate"].performed += ctx => accelerationInput = ctx.ReadValue<float>();
         inputActions["Driving/Accelerate"].canceled += ctx => accelerationInput = 0f;
 
-        inputActions["Driving/Decelerate"].performed += ctx => accelerationInput += ctx.ReadValue<float>();
-        inputActions["Driving/Decelerate"].canceled += ctx => accelerationInput = 0f;
 
         inputActions["Driving/Handbreak"].performed += ctx => isHandbraking = true;
         inputActions["Driving/Handbreak"].canceled += ctx => isHandbraking = false;
@@ -82,9 +100,9 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleDownForce();
-        if(!IsControllable)
+        if (!IsControllable)
             return;
-        
+
         HandleSteering();
         HandleMotor();
         ApplyDrift();
@@ -98,15 +116,19 @@ public class CarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        float targetSteerAngle = (IsDrifting ? 0 : maxSteerAngle) * steeringInput;
+        float targetSteerAngle = (IsDrifting ? currentSteerAngle : maxSteerAngle) * steeringInput;
         currentSteerAngle =
-            IsDrifting ? 0 : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
+            IsDrifting
+                ? currentSteerAngle
+                : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
         Wheels[0].steerAngle = currentSteerAngle;
         Wheels[1].steerAngle = currentSteerAngle;
     }
 
     private void HandleMotor()
     {
+        Debug.LogError(accelerationInput);
+        accelerationInput = autoGas ? GetAccelerationValueWithAutoGas() : accelerationInput;
         Wheels[0].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
         Wheels[1].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
 
@@ -120,6 +142,13 @@ public class CarController : MonoBehaviour
             Wheels[2].brakeTorque = brakeInput * brakeForce;
             Wheels[3].brakeTorque = brakeInput * brakeForce;
         }
+    }
+
+    private float GetAccelerationValueWithAutoGas()
+    {
+        if (accelerationInput < 0)
+            return accelerationInput;
+        return isHandbraking ? Mathf.Min(accelerationInput, 0) : 1;
     }
 
 

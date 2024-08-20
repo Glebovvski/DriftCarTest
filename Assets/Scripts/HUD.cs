@@ -12,6 +12,7 @@ public class HUD : MonoBehaviour
     [SerializeField] private TMP_Text driftCountText;
     [SerializeField] private TMP_Text gameplayTimerText;
 
+    [SerializeField] private GameObject carControlBtns;
     
     [SerializeField] private Color warningColor;
     private Sequence gameTimerSequence;
@@ -86,6 +87,11 @@ public class HUD : MonoBehaviour
     {
         _driftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
         _gameTimer.OnUpdateGameTimer -= UpdateGamePlayTimer;
+    }
+
+    public void SetControlButtonsActive(bool value)
+    {
+        carControlBtns.SetActive(value);
     }
 }
 
