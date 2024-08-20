@@ -24,15 +24,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Break",
-                    "type": "Button",
-                    "id": "08a43522-2fc7-4244-9c7e-32359b17f5b7",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "Handbreak",
                     "type": "Button",
                     "id": "c488258c-5b51-4737-86a5-2a22622b3679",
@@ -87,19 +78,8 @@
                 },
                 {
                     "name": "",
-                    "id": "ecfc1d7c-8076-492d-b661-9b4346f6b6e9",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Break",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "75b92ba9-bbda-42d0-9e6c-76fb0b311e66",
-                    "path": "",
+                    "path": "<Keyboard>/space",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
