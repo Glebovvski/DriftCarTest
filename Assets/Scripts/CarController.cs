@@ -48,7 +48,7 @@ public class CarController : MonoBehaviour
 
     private Single Velocity;
 
-    private bool isDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance*driftTolerance;
+    public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance*driftTolerance;
     private bool isDriftingApplied = false;
     
     private void Start()
@@ -61,7 +61,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        Debug.LogError("DRIFT: "+isDrifting);
+        Debug.LogError("DRIFT: "+IsDrifting);
     }
 
     private void OnEnable()
@@ -102,8 +102,8 @@ public class CarController : MonoBehaviour
 
     private void HandleSteering()
     {
-        float targetSteerAngle = (isDrifting ? 0 : maxSteerAngle) * steeringInput;
-        currentSteerAngle = isDrifting ? 0 : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
+        float targetSteerAngle = (IsDrifting ? 0 : maxSteerAngle) * steeringInput;
+        currentSteerAngle = IsDrifting ? 0 : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
         Wheels[0].steerAngle = currentSteerAngle;
         Wheels[1].steerAngle = currentSteerAngle;
     }
