@@ -7,18 +7,16 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
 {
-    private const int WHEELS_COUNT=4;
+    private const int WHEELS_COUNT = 4;
     public InputActionAsset inputActions;
 
     public GameObject frontLeftWheel, frontRightWheel;
     public GameObject rearLeftWheel, rearRightWheel;
 
-    [Space(10)]
-    public Transform frontLeftTransform, frontRightTransform;
+    [Space(10)] public Transform frontLeftTransform, frontRightTransform;
     public Transform rearLeftTransform, rearRightTransform;
 
-    [Space(10)] 
-    [SerializeField] private Transform com;
+    [Space(10)] [SerializeField] private Transform com;
     [SerializeField] private float maxSteerAngle = 30f;
     [SerializeField] private float motorForce = 50f;
     [SerializeField] private float brakeForce = 100f;
@@ -27,15 +25,12 @@ public class CarController : MonoBehaviour
     [SerializeField] private float driftFactor = 0.95f; // Lower this for more drift
     [SerializeField] private float driftControl = 1.5f; // Control drift amount
 
-    [Space(10)] [Header("Wheels")]
-    [Range(0,1)]
-    [SerializeField] private float suspensionDistance;
-    [Range(0,1)]
-    [SerializeField] private float suspensionOffset;
-    [Range(0,1)]
-    [SerializeField] private float sidewaysFriction;
-    [Range(0,1)]
-    [SerializeField] private float forwardFriction;
+    [Space(10)] [Header("Wheels")] [Range(0, 1)] [SerializeField]
+    private float suspensionDistance;
+
+    [Range(0, 1)] [SerializeField] private float suspensionOffset;
+    [Range(0, 1)] [SerializeField] private float sidewaysFriction;
+    [Range(0, 1)] [SerializeField] private float forwardFriction;
 
     private float steeringInput;
     private float currentSteerAngle;
@@ -48,9 +43,11 @@ public class CarController : MonoBehaviour
 
     private Single Velocity;
 
-    public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance*driftTolerance;
+    public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance * driftTolerance;
     private bool isDriftingApplied = false;
-    
+
+    public bool IsControllable { get; private set; } = false;
+
     private void Start()
     {
         Wheels = new WheelCollider[WHEELS_COUNT];
@@ -61,7 +58,7 @@ public class CarController : MonoBehaviour
 
     private void Update()
     {
-        Debug.LogError("DRIFT: "+IsDrifting);
+        Debug.LogError("DRIFT: " + IsDrifting);
     }
 
     private void OnEnable()
@@ -71,7 +68,7 @@ public class CarController : MonoBehaviour
 
         inputActions["Driving/Accelerate"].performed += ctx => accelerationInput = ctx.ReadValue<float>();
         inputActions["Driving/Accelerate"].canceled += ctx => accelerationInput = 0f;
-        
+
         inputActions["Driving/Decelerate"].performed += ctx => accelerationInput += ctx.ReadValue<float>();
         inputActions["Driving/Decelerate"].canceled += ctx => accelerationInput = 0f;
 
@@ -89,6 +86,9 @@ public class CarController : MonoBehaviour
     private void FixedUpdate()
     {
         HandleDownForce();
+        if(!IsControllable)
+            return;
+        
         HandleSteering();
         HandleMotor();
         ApplyDrift();
@@ -103,15 +103,16 @@ public class CarController : MonoBehaviour
     private void HandleSteering()
     {
         float targetSteerAngle = (IsDrifting ? 0 : maxSteerAngle) * steeringInput;
-        currentSteerAngle = IsDrifting ? 0 : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
+        currentSteerAngle =
+            IsDrifting ? 0 : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
         Wheels[0].steerAngle = currentSteerAngle;
         Wheels[1].steerAngle = currentSteerAngle;
     }
 
     private void HandleMotor()
     {
-        Wheels[0].motorTorque = accelerationInput * motorForce*(isHandbraking?0:1);
-        Wheels[1].motorTorque = accelerationInput * motorForce*(isHandbraking?0:1);
+        Wheels[0].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
+        Wheels[1].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
 
         if (isHandbraking)
         {
@@ -157,6 +158,7 @@ public class CarController : MonoBehaviour
             sidewaysFriction.extremumValue = 1f;
             sidewaysFriction.asymptoteValue = 1f;
         }
+
         Wheels[2].sidewaysFriction = sidewaysFriction;
         Wheels[3].sidewaysFriction = sidewaysFriction;
 
@@ -164,12 +166,13 @@ public class CarController : MonoBehaviour
         {
             Vector3 driftForce = transform.right * (rb.velocity.magnitude * driftControl * -steeringInput);
             rb.AddForce(driftForce, ForceMode.Acceleration);
-            
         }
-        isDriftingApplied = (rb.velocity.normalized - transform.forward).sqrMagnitude*accelerationInput >
-                            (rb.velocity.normalized - transform.right * (-steeringInput)).sqrMagnitude*accelerationInput;// Mathf.Abs(steeringInput)>driftTolerance;
+
+        isDriftingApplied = (rb.velocity.normalized - transform.forward).sqrMagnitude * accelerationInput >
+                            (rb.velocity.normalized - transform.right * (-steeringInput)).sqrMagnitude *
+                            accelerationInput; // Mathf.Abs(steeringInput)>driftTolerance;
     }
-    
+
     private void SetupWheels()
     {
         SetupWheelColliders(frontLeftWheel, 0);
@@ -198,5 +201,10 @@ public class CarController : MonoBehaviour
         collider.suspensionDistance = suspensionDistance;
         collider.forceAppPointDistance = 0.05f;
         collider.center = new Vector3(0, suspensionOffset, 0);
+    }
+
+    public void SetIsControllable(bool value)
+    {
+        IsControllable = value;
     }
 }

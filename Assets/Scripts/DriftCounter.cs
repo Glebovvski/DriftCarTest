@@ -1,16 +1,18 @@
+using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
-public class DriftCounter : MonoBehaviour
+public class DriftCounter : MonoBehaviour, IComponent
 {
     private const float TimeBetweenCounterUpdate = 0.1f;
-    [SerializeField] private CarController car;
-    [SerializeField] private DriftVisauliser driftVisauliser;
     
     private int driftCount;
     private float lastDriftCountUpdate;
+    private CarController car;
 
     public int DriftCount => driftCount;
-    
+    public event Action<int> OnUpdateDriftCounter; 
+
     private void Start()
     {
         driftCount = 0;
@@ -18,7 +20,7 @@ public class DriftCounter : MonoBehaviour
 
     private void Update()
     {
-        if (!car.IsDrifting)
+        if (!car.IsDrifting || !car.IsControllable)
             return;
 
         if (Time.time - lastDriftCountUpdate < TimeBetweenCounterUpdate)
@@ -26,7 +28,11 @@ public class DriftCounter : MonoBehaviour
         
         driftCount++;
         lastDriftCountUpdate = Time.time;
-        driftVisauliser.UpdateDriftCounter(driftCount);
+        OnUpdateDriftCounter?.Invoke(driftCount);
     }
 
+    public void Init(MonoBehaviour behaviour)
+    {
+        car = (CarController)behaviour;
+    }
 }
