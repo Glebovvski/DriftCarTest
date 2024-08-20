@@ -1,11 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
-public class EndGamePopup : MonoBehaviour, IComponent
+public class EndGamePopup : MonoBehaviour
 {
     [SerializeField] private Image bgImg;
     [SerializeField] private Color endFadeColor;
@@ -17,10 +19,27 @@ public class EndGamePopup : MonoBehaviour, IComponent
 
     [SerializeField] private RectTransform driftCounterTransform;
 
-    private DriftCounter driftCounter;
-
-    private int gold;
+    [Inject] private DriftCounter driftCounter;
+    [Inject] private GameTimer gameTimer;
     
+    private int gold;
+
+    private void Awake()
+    {
+        Hide();
+        Subscribe();
+    }
+
+    private void Subscribe()
+    {
+        gameTimer.OnGameplayEnd += Show;
+    }
+
+    private void Unsubscribe()
+    {
+        gameTimer.OnGameplayEnd -= Show;
+    }
+
     private void CountGold()
     {
         var sequence = DOTween.Sequence();
@@ -89,16 +108,15 @@ public class EndGamePopup : MonoBehaviour, IComponent
         showSequence.Play();
     }
 
-    
-
-    public void Init(MonoBehaviour behaviour)
-    {
-        driftCounter = (DriftCounter)behaviour;
-    }
 
     public void Hide()
     {
         bgImg.color = new Color(0, 0, 0, 0);
         bgImg.transform.DOScale(0, 0);
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
     }
 }

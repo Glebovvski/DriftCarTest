@@ -1,17 +1,18 @@
 using System;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Zenject;
 
-public class DriftCounter : MonoBehaviour, IComponent
+public class DriftCounter : MonoBehaviour
 {
     private const float TimeBetweenCounterUpdate = 0.1f;
     
     private int driftCount;
     private float lastDriftCountUpdate;
-    private CarController car;
 
     public int DriftCount => driftCount;
-    public event Action<int> OnUpdateDriftCounter; 
+    public event Action<int> OnUpdateDriftCounter;
+
+    [Inject] private CarController car;
 
     private void Start()
     {
@@ -29,10 +30,5 @@ public class DriftCounter : MonoBehaviour, IComponent
         driftCount++;
         lastDriftCountUpdate = Time.time;
         OnUpdateDriftCounter?.Invoke(driftCount);
-    }
-
-    public void Init(MonoBehaviour behaviour)
-    {
-        car = (CarController)behaviour;
     }
 }

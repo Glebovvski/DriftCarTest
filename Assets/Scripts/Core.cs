@@ -13,12 +13,6 @@ public class Core : MonoBehaviour
 
     private void Awake()
     {
-        car.SetIsControllable(true);
-        driftCounter.Init(car);
-        gameTimer.Init(null);
-        endGamePopup.Init(driftCounter);
-        endGamePopup.Hide();
-
         Subscribe();
     }
 
@@ -39,8 +33,6 @@ public class Core : MonoBehaviour
 
     private void Subscribe()
     {
-        driftCounter.OnUpdateDriftCounter += UpdateDriftUI;
-        gameTimer.OnUpdateGameTimer += UpdateGameTimerUI;
         gameTimer.OnGameplayEnd += EndGamePlay;
     }
 

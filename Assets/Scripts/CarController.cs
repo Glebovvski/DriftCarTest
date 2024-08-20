@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 [RequireComponent(typeof(Rigidbody))]
 public class CarController : MonoBehaviour
@@ -41,24 +42,19 @@ public class CarController : MonoBehaviour
     private Rigidbody rb;
     private WheelCollider[] Wheels;
 
-    private Single Velocity;
-
     public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance * driftTolerance;
     private bool isDriftingApplied = false;
 
     public bool IsControllable { get; private set; } = false;
+
+    [Inject] private GameTimer _gameTimer;
 
     private void Start()
     {
         Wheels = new WheelCollider[WHEELS_COUNT];
         SetupWheels();
         rb = GetComponent<Rigidbody>();
-        // rb.centerOfMass = com.localPosition;
-    }
-
-    private void Update()
-    {
-        Debug.LogError("DRIFT: " + IsDrifting);
+        _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
     }
 
     private void OnEnable()
@@ -206,5 +202,13 @@ public class CarController : MonoBehaviour
     public void SetIsControllable(bool value)
     {
         IsControllable = value;
+
+        if (!IsControllable)
+        {
+            Wheels[0].motorTorque = 0;
+            Wheels[1].motorTorque = 0;
+            Wheels[2].brakeTorque = brakeForce;
+            Wheels[3].brakeTorque = brakeForce;
+        }
     }
 }

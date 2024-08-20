@@ -1,12 +1,7 @@
 using System;
 using UnityEngine;
 
-public interface IComponent
-{
-    void Init(MonoBehaviour behaviour);
-}
-
-public class GameTimer : MonoBehaviour,IComponent
+public class GameTimer : MonoBehaviour
 {
     [SerializeField] private float gameplayTime;
 
@@ -31,10 +26,5 @@ public class GameTimer : MonoBehaviour,IComponent
             OnUpdateGameTimer?.Invoke(0);
             OnGameplayEnd?.Invoke();
         }
-    }
-
-    public void Init(MonoBehaviour behaviour)
-    {
-        
     }
 }

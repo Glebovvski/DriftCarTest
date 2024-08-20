@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using Zenject;
 
 public class HUD : MonoBehaviour
 {
@@ -11,13 +12,28 @@ public class HUD : MonoBehaviour
     [SerializeField] private TMP_Text driftCountText;
     [SerializeField] private TMP_Text gameplayTimerText;
 
-    [SerializeField] private EndGamePopup endGamePopup;
     
     [SerializeField] private Color warningColor;
     private Sequence gameTimerSequence;
     private Sequence driftCountSequence;
     
     private bool gamePlayTimerBlip = false;
+
+    [Inject] private DriftCounter _driftCounter;
+    [Inject] private GameTimer _gameTimer;
+    [Inject] private EndGamePopup endGamePopup;
+
+    private void Awake()
+    {
+        Subscribe();
+    }
+
+    private void Subscribe()
+    {
+        _driftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
+        _gameTimer.OnUpdateGameTimer += UpdateGamePlayTimer;
+    }
+
     public void UpdateDriftCounter(int value)
     {
         driftCountSequence.Kill(true);
@@ -38,6 +54,11 @@ public class HUD : MonoBehaviour
         {
             BlipTimer();
         }
+
+        if (minutes == 0 && remainingSeconds <= 0)
+        {
+            gameTimerSequence.Kill();
+        }
         gameplayTimerText.text = string.Format("{0:00}:{1:00}", minutes, remainingSeconds);
     }
 
@@ -54,6 +75,17 @@ public class HUD : MonoBehaviour
         gameTimerSequence.Play();
         
         gamePlayTimerBlip = true;
+    }
+
+    private void OnDestroy()
+    {
+        Unsubscribe();
+    }
+    
+    private void Unsubscribe()
+    {
+        _driftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
+        _gameTimer.OnUpdateGameTimer -= UpdateGamePlayTimer;
     }
 }
 
