@@ -11,6 +11,8 @@ public class HUD : MonoBehaviour
     [SerializeField] private TMP_Text driftCountText;
     [SerializeField] private TMP_Text gameplayTimerText;
 
+    [SerializeField] private EndGamePopup endGamePopup;
+    
     [SerializeField] private Color warningColor;
     private Sequence gameTimerSequence;
     private Sequence driftCountSequence;
@@ -53,5 +55,6 @@ public class HUD : MonoBehaviour
         
         gamePlayTimerBlip = true;
     }
-    
 }
+
+

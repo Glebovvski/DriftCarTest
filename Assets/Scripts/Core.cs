@@ -9,12 +9,15 @@ public class Core : MonoBehaviour
     [SerializeField] private GameTimer gameTimer;
     [SerializeField] private CarController car;
     [SerializeField] private DriftCounter driftCounter;
+    [SerializeField] private EndGamePopup endGamePopup;
 
     private void Awake()
     {
         car.SetIsControllable(true);
         driftCounter.Init(car);
         gameTimer.Init(null);
+        endGamePopup.Init(driftCounter);
+        endGamePopup.Hide();
 
         Subscribe();
     }
@@ -44,11 +47,13 @@ public class Core : MonoBehaviour
     private void EndGamePlay()
     {
         car.SetIsControllable(false);
+        endGamePopup.Show();
     }
 
     private void Unsubscribe()
     {
         driftCounter.OnUpdateDriftCounter -= UpdateDriftUI;
         gameTimer.OnUpdateGameTimer -= UpdateGameTimerUI;
+        gameTimer.OnGameplayEnd -= EndGamePlay;
     }
 }

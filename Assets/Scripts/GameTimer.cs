@@ -8,7 +8,7 @@ public interface IComponent
 
 public class GameTimer : MonoBehaviour,IComponent
 {
-    [SerializeField] private int gameplayTime = 2;
+    [SerializeField] private float gameplayTime;
 
     private float timeLeft;
 
@@ -17,7 +17,7 @@ public class GameTimer : MonoBehaviour,IComponent
 
     private void Awake()
     {
-        timeLeft = 2 * 60;
+        timeLeft = gameplayTime * 60;
     }
 
     private void Update()
@@ -27,7 +27,10 @@ public class GameTimer : MonoBehaviour,IComponent
         timeLeft -= Time.deltaTime;
         OnUpdateGameTimer?.Invoke(timeLeft);
         if (timeLeft <= 0)
+        {
+            OnUpdateGameTimer?.Invoke(0);
             OnGameplayEnd?.Invoke();
+        }
     }
 
     public void Init(MonoBehaviour behaviour)
