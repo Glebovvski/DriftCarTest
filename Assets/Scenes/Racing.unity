@@ -2696,13 +2696,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: brakeForce
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: motorForce
+      value: 800
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: steerSpeed
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: maxSteerAngle
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1288373997381029831, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
+      propertyPath: m_DeadZoneWidth
+      value: 0.054
+      objectReference: {fileID: 0}
     - target: {fileID: 1288373997381029831, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_LookaheadTime
       value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1288373997381029831, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_SoftZoneWidth
-      value: 0.949
+      value: 0.375
       objectReference: {fileID: 0}
     - target: {fileID: 1288373997381029831, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_SoftZoneHeight

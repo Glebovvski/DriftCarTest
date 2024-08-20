@@ -9,7 +9,7 @@
                     "name": "Steer",
                     "type": "Value",
                     "id": "8efe3bce-0163-43fb-89f1-d0535dec23b9",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Decelerate",
+                    "type": "Value",
+                    "id": "f03091b6-2e38-4899-8180-54635757b8d0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -48,7 +57,18 @@
                     "id": "d9443ed6-ea13-4495-ae75-ee65d80d2dc1",
                     "path": "<Keyboard>/a",
                     "interactions": "",
-                    "processors": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "Steer",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d59fee9a-2980-40e5-8228-9bace2381844",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "Scale",
                     "groups": "",
                     "action": "Steer",
                     "isComposite": false,
@@ -84,6 +104,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Handbreak",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "c09101ec-8852-4278-b1e1-6411fc35ba55",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "Scale(factor=-1)",
+                    "groups": "",
+                    "action": "Decelerate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
