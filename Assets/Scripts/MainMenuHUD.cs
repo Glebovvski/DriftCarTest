@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameTools;
 using Popup;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,11 +17,20 @@ namespace UI
         [SerializeField] private Button singlePlayerBtn;
         [SerializeField] private Button onlineBtn;
 
+        [Inject] private MainMenuPropsTransition transitionManager;
+
         [Inject] private SettingsPopup settingsPopup;
+
 
         private void Awake()
         {
             settingsBtn.onClick.AddListener(settingsPopup.Show);
+            garageBtn.onClick.AddListener(OpenGarage);
+        }
+
+        private void OpenGarage()
+        {
+            transitionManager.TransitionTo(PropTypes.Garage, settingsPopup.Show);
         }
     }
 }
