@@ -54,7 +54,9 @@ namespace Core
 
     public class CarSettings : ISaveable
     {
+        private CarKey selectedCar;
         private Material carMaterial;
+        private Texture carTexture;
         public CarSettings()
         {
             carMaterial = Resources.Load("Car") as Material;

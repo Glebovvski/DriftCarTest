@@ -33,7 +33,7 @@ namespace Car
         [SerializeField] private float brakeForce = 100f;
         [SerializeField] private float steerSpeed = 5f;
         [SerializeField] private float driftTolerance = 0.5f;
-        [SerializeField] private float driftFactor = 0.95f; // Lower this for more drift
+        [SerializeField] private float driftFactor = 0.95f; // Lower for more drift
         [SerializeField] private float driftControl = 1.5f; // Control drift amount
 
         [Space(10)] [Header("Wheels")] [Range(0, 1)] [SerializeField]
