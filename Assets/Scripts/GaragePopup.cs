@@ -22,13 +22,13 @@ namespace Popup
         [SerializeField] private Color affordableColor;
         [SerializeField] private Color notAffordableColor;
         [SerializeField] private CarSelector carSelector;
-        
-        
+
+
         [Inject] private MainMenuPropsTransition transitionManager;
         [Inject] private PlayerData playerData;
 
         private CarData selectedCarData;
-        
+
         protected void Awake()
         {
             base.Awake();
@@ -38,16 +38,34 @@ namespace Popup
         private void Init()
         {
             selectedCarData = carSelector.SelectCar();
+            UpdateCar();
+
             SetDefaultValues();
             backBtn.onClick.AddListener(Back);
             colorPicker.onColorChange.AddListener(OnColorChange);
             metallicSlider.onValueChanged.AddListener(OnMetallicChange);
             smoothnessSlider.onValueChanged.AddListener(OnSmoothnessChange);
+            nextCarBtn.onClick.AddListener(OnNextCarClick);
+            prevCarBtn.onClick.AddListener(OnPrevCarClick);
+        }
+
+        private void UpdateCar()
+        {
+            SetCarTextures();
+        }
+
+        private void OnPrevCarClick()
+        {
+            selectedCarData = carSelector.SelectPrevCar(selectedCarData.Car);
+        }
+
+        private void OnNextCarClick()
+        {
+            selectedCarData = carSelector.SelectNextCar(selectedCarData.Car);
         }
 
         private void SetDefaultValues()
         {
-            SetCarTextures();
             colorPicker.SetColor(playerData.CarSettings.CarColor);
             metallicSlider.SetValueWithoutNotify(playerData.CarSettings.Metallic);
             smoothnessSlider.SetValueWithoutNotify(playerData.CarSettings.Smoothness);
@@ -80,7 +98,7 @@ namespace Popup
 
         private void Back()
         {
-            transitionManager.TransitionTo(PropTypes.Main,Hide);
+            transitionManager.TransitionTo(PropTypes.Main, Hide);
         }
     }
 }
