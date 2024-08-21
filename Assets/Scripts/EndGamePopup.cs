@@ -21,8 +21,10 @@ public class EndGamePopup : MonoBehaviour
 
     [Inject] private DriftCounter driftCounter;
     [Inject] private GameTimer gameTimer;
+    [Inject] private AdsManager adsManager;
     
     private int gold;
+    public int Gold => gold;
 
     private void Awake()
     {
@@ -33,11 +35,35 @@ public class EndGamePopup : MonoBehaviour
     private void Subscribe()
     {
         gameTimer.OnGameplayEnd += Show;
+        adsManager.OnRewardedAdAvailable += SetAdBtnInteractable;
+        adBtn.onClick.AddListener(TryShowRewardedAd);
+    }
+
+    private void TryShowRewardedAd()
+    {
+        adsManager.ShowRewarded(GetRewardForAd);
+    }
+
+    private void GetRewardForAd()
+    {
+        adBtn.interactable = false;
+        var sequence = DOTween.Sequence();
+        for (int i = 0; i < gold; i++)
+        {
+            sequence.JoinCallback(UpdateGoldText);
+            sequence.AppendInterval(1f / (float)gold);
+        }
+    }
+
+    private void SetAdBtnInteractable(bool value)
+    {
+        adBtn.interactable = value;
     }
 
     private void Unsubscribe()
     {
         gameTimer.OnGameplayEnd -= Show;
+        adsManager.OnRewardedAdAvailable -= SetAdBtnInteractable;
     }
 
     private void CountGold()
@@ -70,17 +96,7 @@ public class EndGamePopup : MonoBehaviour
             sequence.Append(goldRect.DOJump(endPosition, jumpPower, numJumps, (float)1/(float)driftCounter.DriftCount).SetEase(Ease.OutQuad));
 
             // Scale the gold text when the dummy image reaches the position
-            sequence.AppendCallback(() =>
-            {
-                goldText.transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
-                {
-                    goldText.transform.DOScale(1f, 0.2f); // Scale back to normal
-                });
-
-                // Increment the gold count and update the text
-                gold++;
-                goldText.text = gold.ToString();
-            });
+            sequence.AppendCallback(UpdateGoldText);
 
             // Destroy the dummy Image after the animation
             sequence.AppendCallback(() =>
@@ -96,6 +112,18 @@ public class EndGamePopup : MonoBehaviour
         });
 
         sequence.Play();
+    }
+
+    private void UpdateGoldText()
+    {
+        goldText.transform.DOScale(1.2f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
+        {
+            goldText.transform.DOScale(1f, 0.2f); // Scale back to normal
+        });
+
+        // Increment the gold count and update the text
+        gold++;
+        goldText.text = gold.ToString();
     }
     
     public void Show()

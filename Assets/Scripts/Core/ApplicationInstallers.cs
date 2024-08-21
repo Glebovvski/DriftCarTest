@@ -8,6 +8,9 @@ public class ApplicationInstallers : MonoInstaller
     [SerializeField] private HUD _hud;
     [SerializeField] private EndGamePopup _endGamePopup;
     [SerializeField] private CarController _car;
+
+    [SerializeField] private AdsManager _adsManager;
+    
     public override void InstallBindings()
     {
         Container.BindInstance(_car);
@@ -15,6 +18,7 @@ public class ApplicationInstallers : MonoInstaller
         Container.BindInstance(_driftCounter);
         Container.BindInstance(_endGamePopup);
         Container.BindInstance(_hud);
+        Container.BindInstance(_adsManager);
         
         _car.SetIsControllable(true);
     }

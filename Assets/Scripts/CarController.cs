@@ -127,7 +127,6 @@ public class CarController : MonoBehaviour
 
     private void HandleMotor()
     {
-        Debug.LogError(accelerationInput);
         accelerationInput = autoGas ? GetAccelerationValueWithAutoGas() : accelerationInput;
         Wheels[0].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
         Wheels[1].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
