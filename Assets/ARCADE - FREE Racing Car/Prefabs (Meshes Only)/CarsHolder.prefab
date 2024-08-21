@@ -113,6 +113,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: e69778f50dc23a5498ddef487ed88453, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8547894299078190936}
+    - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: e69778f50dc23a5498ddef487ed88453, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2498070304046692396}
   m_SourcePrefab: {fileID: 100100000, guid: e69778f50dc23a5498ddef487ed88453, type: 3}
 --- !u!4 &106466980958705407 stripped
 Transform:
@@ -137,6 +140,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Car: 2
+  rotationSpeed: 200
+--- !u!65 &2498070304046692396
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 734631595304700997}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5120504, y: 1.7449876, z: 5.2923756}
+  m_Center: {x: 0.019986035, y: 0.9250675, z: 0.01895356}
 --- !u!1001 &1978466719234915094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -196,6 +221,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: 0180a46d32e1c5c4c8916ba0672827a2, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5987653059302377397}
+    - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: 0180a46d32e1c5c4c8916ba0672827a2, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4190952845096939355}
   m_SourcePrefab: {fileID: 100100000, guid: 0180a46d32e1c5c4c8916ba0672827a2, type: 3}
 --- !u!4 &102692695471437938 stripped
 Transform:
@@ -220,6 +248,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Car: 3
+  rotationSpeed: 200
+--- !u!65 &4190952845096939355
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 731561002007159496}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5120504, y: 1.7449876, z: 5.2923756}
+  m_Center: {x: 0.019986035, y: 0.9250675, z: 0.01895356}
 --- !u!1001 &5764458632156071591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -279,6 +329,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: 669a0ade23534b144957fa97ad8a4527, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3976849524226365750}
+    - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: 669a0ade23534b144957fa97ad8a4527, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 9220536114133364347}
   m_SourcePrefab: {fileID: 100100000, guid: 669a0ade23534b144957fa97ad8a4527, type: 3}
 --- !u!4 &6189988902639437251 stripped
 Transform:
@@ -303,6 +356,28 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Car: 1
+  rotationSpeed: 200
+--- !u!65 &9220536114133364347
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6821988824262860665}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5120504, y: 1.7449876, z: 5.2923756}
+  m_Center: {x: 0.019986035, y: 0.9250675, z: 0.01895356}
 --- !u!1001 &7870705788285667774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -386,6 +461,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 807578013616311995}
+    - targetCorrespondingSourceObject: {fileID: 1248598967819147742, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1318464289423332036}
   m_SourcePrefab: {fileID: 100100000, guid: c4cad50aa03bbca42938fe318344950b, type: 3}
 --- !u!4 &8584537911890217690 stripped
 Transform:
@@ -410,3 +488,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Car: 0
+  rotationSpeed: 200
+--- !u!65 &1318464289423332036
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8964897829342892128}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.5120504, y: 1.7449876, z: 5.2923756}
+  m_Center: {x: 0.019986035, y: 0.9250675, z: 0.01895356}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Core;
 using GameTools;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -18,6 +19,7 @@ namespace Popup
         [SerializeField] private Button nextCarBtn;
         [SerializeField] private Button prevCarBtn;
         [SerializeField] private Button buyBtn;
+        [SerializeField] private TMP_Text priceText;
         [SerializeField] private Button selectBtn;
         [SerializeField] private Color affordableColor;
         [SerializeField] private Color notAffordableColor;
@@ -26,13 +28,21 @@ namespace Popup
 
         [Inject] private MainMenuPropsTransition transitionManager;
         [Inject] private PlayerData playerData;
-
+        [Inject] private IAPPopup iapPopup;
+        
         private CarData selectedCarData;
 
         protected void Awake()
         {
             base.Awake();
             Init();
+        }
+
+        protected override void Hide()
+        {
+            selectedCarData = carSelector.SelectCar();
+            UpdateCar();
+            base.Hide();
         }
 
         private void Init()
@@ -47,21 +57,48 @@ namespace Popup
             smoothnessSlider.onValueChanged.AddListener(OnSmoothnessChange);
             nextCarBtn.onClick.AddListener(OnNextCarClick);
             prevCarBtn.onClick.AddListener(OnPrevCarClick);
+            buyBtn.onClick.AddListener(PurchaseCarBtnClick);
+        }
+
+        private void PurchaseCarBtnClick()
+        {
+            if (playerData.TryPurchase(selectedCarData.Price))
+            {
+                selectedCarData.SetIsBought(true);
+            }
+            else
+            {
+                iapPopup.Show();
+            }
+
+            UpdateCarInfo();
         }
 
         private void UpdateCar()
         {
             SetCarTextures();
+            UpdateCarInfo();
+        }
+
+        private void UpdateCarInfo()
+        {
+            priceText.text = selectedCarData.Price.ToString();
+            buyBtn.image.color = playerData.CanPurchase(selectedCarData.Price) ? affordableColor : notAffordableColor;
+            
+            buyBtn.gameObject.SetActive(!selectedCarData.IsBought);
+            selectBtn.gameObject.SetActive(selectedCarData.IsBought);
         }
 
         private void OnPrevCarClick()
         {
             selectedCarData = carSelector.SelectPrevCar(selectedCarData.Car);
+            UpdateCar();
         }
 
         private void OnNextCarClick()
         {
             selectedCarData = carSelector.SelectNextCar(selectedCarData.Car);
+            UpdateCar();
         }
 
         private void SetDefaultValues()

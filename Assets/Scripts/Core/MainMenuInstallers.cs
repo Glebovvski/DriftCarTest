@@ -1,6 +1,7 @@
 using GameTools;
 using Popup;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Core
@@ -9,6 +10,7 @@ namespace Core
     {
         [SerializeField] private SettingsPopup _settingsPopup;
         [SerializeField] private GaragePopup _garagePopup;
+        [SerializeField] private IAPPopup _iapPopup;
         [SerializeField] private MainMenuPropsTransition _mainMenuPropsTransition;
 
         public override void InstallBindings()
@@ -16,6 +18,7 @@ namespace Core
             Container.BindInstance(_settingsPopup);
             Container.BindInstance(_mainMenuPropsTransition);
             Container.BindInstance(_garagePopup);
+            Container.BindInstance(_iapPopup);
         }
     }
 }

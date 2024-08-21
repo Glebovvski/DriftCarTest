@@ -247,5 +247,21 @@ namespace Core
         public void Save()
         {
         }
+
+        public bool TryPurchase(int price)
+        {
+            if (Gold >= price)
+            {
+                Gold -= price;
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool CanPurchase(int price)
+        {
+            return Gold >= price;
+        }
     }
 }
