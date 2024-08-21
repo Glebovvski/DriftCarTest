@@ -14,6 +14,15 @@ namespace Popup
         [SerializeField] private FlexibleColorPicker colorPicker;
         [SerializeField] private Slider metallicSlider;
         [SerializeField] private Slider smoothnessSlider;
+
+        [SerializeField] private Button nextCarBtn;
+        [SerializeField] private Button prevCarBtn;
+        [SerializeField] private Button buyBtn;
+        [SerializeField] private Button selectBtn;
+        [SerializeField] private Color affordableColor;
+        [SerializeField] private Color notAffordableColor;
+        [SerializeField] private CarSelector carSelector;
+        
         
         [Inject] private MainMenuPropsTransition transitionManager;
         [Inject] private PlayerData playerData;

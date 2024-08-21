@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8424161682185517929}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: 0.90856236, z: -0, w: 0.41774938}
+  m_LocalRotation: {x: 0, y: 0.9085629, z: 0, w: 0.41774815}
   m_LocalPosition: {x: -21.138195, y: 6.141, z: -17.833992}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bb68ff84a46304d8ad29a4f864ea52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Car: 2
 --- !u!1001 &1978466719234915094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -218,6 +219,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bb68ff84a46304d8ad29a4f864ea52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Car: 3
 --- !u!1001 &5764458632156071591
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -300,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bb68ff84a46304d8ad29a4f864ea52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Car: 1
 --- !u!1001 &7870705788285667774
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -406,3 +409,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8bb68ff84a46304d8ad29a4f864ea52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Car: 0
