@@ -5,12 +5,27 @@ using UnityEngine;
 
 public class AdsManager : MonoBehaviour
 {
+    public static AdsManager Instance;
+    
     public static string uniqueUserId = "demoUserUnity";
     public event Action<bool> OnRewardedAdAvailable;
 
     private Action rewardAction;
 
     [SerializeField] private bool test = true;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(this);
+        }
+        else
+        {
+            Destroy(this);
+        }
+    }
 
     void Start()
     {

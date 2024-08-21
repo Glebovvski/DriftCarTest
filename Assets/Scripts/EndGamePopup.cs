@@ -21,7 +21,6 @@ public class EndGamePopup : MonoBehaviour
 
     [Inject] private DriftCounter driftCounter;
     [Inject] private GameTimer gameTimer;
-    [Inject] private AdsManager adsManager;
     
     private int gold;
     public int Gold => gold;
@@ -35,13 +34,13 @@ public class EndGamePopup : MonoBehaviour
     private void Subscribe()
     {
         gameTimer.OnGameplayEnd += Show;
-        adsManager.OnRewardedAdAvailable += SetAdBtnInteractable;
+        AdsManager.Instance.OnRewardedAdAvailable += SetAdBtnInteractable;
         adBtn.onClick.AddListener(TryShowRewardedAd);
     }
 
     private void TryShowRewardedAd()
     {
-        adsManager.ShowRewarded(GetRewardForAd);
+        AdsManager.Instance.ShowRewarded(GetRewardForAd);
     }
 
     private void GetRewardForAd()
@@ -63,7 +62,7 @@ public class EndGamePopup : MonoBehaviour
     private void Unsubscribe()
     {
         gameTimer.OnGameplayEnd -= Show;
-        adsManager.OnRewardedAdAvailable -= SetAdBtnInteractable;
+        AdsManager.Instance.OnRewardedAdAvailable -= SetAdBtnInteractable;
     }
 
     private void CountGold()
