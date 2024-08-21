@@ -1,0 +1,168 @@
+using System;
+using Car;
+using UnityEngine;
+
+namespace Core
+{
+    public interface ISaveable
+    {
+        void Save();
+    }
+
+    public class GameSettings : ISaveable
+    {
+        public event Action OnSoundVolumeChanged;
+        public event Action OnMusicVolumeChanged;
+
+        public float MusicVolume
+        {
+            get => musicVolume;
+            private set
+            {
+                musicVolume = value;
+                OnMusicVolumeChanged?.Invoke();
+            }
+        }
+
+        public float SoundVolume
+        {
+            get => soundVolume;
+            private set
+            {
+                soundVolume = value;
+                OnSoundVolumeChanged?.Invoke();
+            }
+        }
+
+        private float musicVolume;
+        private float soundVolume;
+
+        public void SetMusicVolume(float value)
+        {
+            MusicVolume = value;
+        }
+
+        public void SetSoundVolume(float value)
+        {
+            SoundVolume = value;
+        }
+
+        public void Save()
+        {
+        }
+    }
+
+    public class CarSettings : ISaveable
+    {
+        public ControlType ControlType
+        {
+            get => controlType;
+            private set { controlType = value; }
+        }
+
+        //car prop
+        public Color CarColor
+        {
+            get => carColor;
+            private set { carColor = value; }
+        }
+
+        public float Metallic
+        {
+            get => metallic;
+            private set { metallic = value; }
+        }
+        //end car prop
+
+        private ControlType controlType;
+        private Color carColor;
+        private float metallic;
+
+        public void SetCarColor(Color value)
+        {
+            CarColor = value;
+        }
+
+        public void SetMetallic(float value)
+        {
+            Metallic = value;
+        }
+
+        public void SetControlType(ControlType value)
+        {
+            ControlType = value;
+        }
+
+        public void Save()
+        {
+        }
+    }
+
+    public class PlayerData : ISaveable
+    {
+        private readonly string goldKey = "gold";
+        private readonly string driftKey = "drift";
+        private readonly string carColorKey = "carColor";
+        private readonly string metallicKey = "metallic";
+
+        public PlayerData()
+        {
+            CarSettings = new();
+            GameSettings = new();
+        }
+
+        #region Data
+
+        public CarSettings CarSettings { get; private set; }
+        public GameSettings GameSettings { get; private set; }
+
+        public int Gold
+        {
+            get => gold;
+            private set { gold = value; }
+        }
+
+        public int DriftPoints
+        {
+            get => driftPoints;
+            private set { driftPoints = value; }
+        }
+
+        private int gold;
+        private int driftPoints;
+
+        #endregion
+
+        public void SetGold(int value)
+        {
+            Gold = value;
+        }
+
+        public void SetDriftPoints(int value)
+        {
+            DriftPoints = value;
+        }
+
+        public void SetCarColor(Color value)
+        {
+            CarSettings.SetCarColor(value);
+        }
+
+        public void SetMetallic(float value)
+        {
+            CarSettings.SetMetallic(value);
+        }
+
+        public void SetControlType(ControlType value)
+        {
+            CarSettings.SetControlType(value);
+        }
+
+        public void SetMusicVolume(float value) => GameSettings.SetMusicVolume(value);
+        public void SetSoundVolume(float value) => GameSettings.SetSoundVolume(value);
+
+        public void Save()
+        {
+        }
+    }
+}
