@@ -36,9 +36,7 @@ namespace Core
 
         private void UpdateMusicVolume()
         {
-            Debug.LogError(_musicSource.isPlaying);
             _musicSource.volume = _playerData.GameSettings.MusicVolume;
-            // _source.Play();
         }
 
         private void OnSceneLoad(Scene scene, LoadSceneMode arg1)
