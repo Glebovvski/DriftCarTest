@@ -26,6 +26,8 @@ namespace Popup
         
         [Inject] private MainMenuPropsTransition transitionManager;
         [Inject] private PlayerData playerData;
+
+        private CarData selectedCarData;
         
         protected void Awake()
         {
@@ -35,6 +37,7 @@ namespace Popup
 
         private void Init()
         {
+            selectedCarData = carSelector.SelectCar();
             SetDefaultValues();
             backBtn.onClick.AddListener(Back);
             colorPicker.onColorChange.AddListener(OnColorChange);

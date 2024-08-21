@@ -4,6 +4,14 @@ using UnityEngine;
 
 namespace Core
 {
+    public enum TextureType
+    {
+        Albedo = 0,
+        Metallic = 1,
+        Roughness = 2,
+        Normal = 3,
+    }
+
     public interface ISaveable
     {
         void Save();
@@ -57,11 +65,15 @@ namespace Core
         private CarKey selectedCar = CarKey.Free;
         private Material carMaterial;
         private Texture carTexture;
+        private Texture carNormalTexture;
+        private Texture carMetallicTexture;
+        private Texture carRoughnessTexture;
+
         public CarSettings()
         {
             carMaterial = Resources.Load("Car") as Material;
         }
-        
+
         public ControlType ControlType
         {
             get => controlType;
@@ -71,12 +83,9 @@ namespace Core
         public CarKey SelectedCar
         {
             get => selectedCar;
-            private set
-            {
-                selectedCar = value;
-            }
+            private set { selectedCar = value; }
         }
-        
+
         //car prop
         public Color CarColor
         {
@@ -97,7 +106,7 @@ namespace Core
                 carMaterial.SetFloat(MetallicID, value);
             }
         }
-        
+
         public float Smoothness
         {
             get => carMaterial.GetFloat(Glossiness);
@@ -115,6 +124,7 @@ namespace Core
         private float smoothness;
         private static readonly int MetallicID = Shader.PropertyToID("_Metallic");
         private static readonly int Glossiness = Shader.PropertyToID("_Glossiness");
+        private static readonly int MainTex = Shader.PropertyToID("_MainTex");
 
         public void SetCarColor(Color value)
         {
@@ -125,7 +135,7 @@ namespace Core
         {
             Metallic = value;
         }
-        
+
         public void SetSmoothness(float value)
         {
             Smoothness = value;
@@ -140,7 +150,23 @@ namespace Core
         {
             SelectedCar = value;
         }
-        
+
+        public void SetTexture(Texture value, TextureType type)
+        {
+            switch (type)
+            {
+                case TextureType.Albedo:
+                    carMaterial.SetTexture(MainTex, value);
+                    break;
+                case TextureType.Metallic:
+                    break;
+                case TextureType.Normal:
+                    break;
+                case TextureType.Roughness:
+                    break;
+            }
+        }
+
         public void Save()
         {
         }
@@ -200,7 +226,7 @@ namespace Core
         {
             CarSettings.SetMetallic(value);
         }
-        
+
         public void SetSmoothness(float value)
         {
             CarSettings.SetSmoothness(value);
