@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
@@ -129,17 +126,19 @@ public class EndGamePopup : MonoBehaviour
     {
         var showSequence = DOTween.Sequence();
         
-        showSequence.Join(bgImg.transform.DOScale(1, 1));
-        showSequence.Join(bgImg.DOColor(endFadeColor, 1));
+        showSequence.Append(bgImg.transform.DOScale(1, 0));
+        showSequence.Append(bgImg.DOColor(endFadeColor, 1));
+        showSequence.Join(popup.transform.DOScale(1, 1));
         showSequence.OnComplete(() => CountGold());
         showSequence.Play();
     }
 
 
-    public void Hide()
+    private void Hide()
     {
         bgImg.color = new Color(0, 0, 0, 0);
         bgImg.transform.DOScale(0, 0);
+        popup.transform.DOScale(0, 0);
     }
 
     private void OnDestroy()
