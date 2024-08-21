@@ -20,6 +20,7 @@ namespace UI
         [Inject] private MainMenuPropsTransition transitionManager;
 
         [Inject] private SettingsPopup settingsPopup;
+        [Inject] private GaragePopup garagePopup;
 
 
         private void Awake()
@@ -30,7 +31,7 @@ namespace UI
 
         private void OpenGarage()
         {
-            transitionManager.TransitionTo(PropTypes.Garage, settingsPopup.Show);
+            transitionManager.TransitionTo(PropTypes.Garage, garagePopup.Show);
         }
     }
 }

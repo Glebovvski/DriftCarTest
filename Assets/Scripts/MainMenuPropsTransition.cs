@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PropTypes
 {
@@ -11,22 +12,8 @@ public enum PropTypes
     Garage,
 }
 
-public enum PropMoveDirection
-{
-    Vertical,
-    Horizontal,
-}
-
 namespace GameTools
 {
-    [Serializable]
-    public class PropData
-    {
-        public PropTypes PropType;
-        public PropMoveDirection Direction;
-        public GameObject Prop;
-    }
-
     public class MainMenuPropsTransition : MonoBehaviour
     {
         [SerializeField] private List<PropData> propData;
@@ -40,23 +27,28 @@ namespace GameTools
 
         public void TransitionTo(PropTypes type, Action onComplete)
         {
-            var transitionSequence = DOTween.Sequence();
-            var currentData = propData.FirstOrDefault(x => x.PropType == currentProp);
-            var nextData = propData.FirstOrDefault(x => x.PropType == type);
-            Vector3 currentPropDirection = MoveDirection(currentData, false);
-            Vector3 nextPropDirection = MoveDirection(nextData, true);
-
-            transitionSequence.Join(currentData.Prop.transform.DOMove(currentPropDirection * 5f, 2f));
-            transitionSequence.Join(nextData.Prop.transform.DOMove(nextPropDirection * 5f, 2f));
-            transitionSequence.OnComplete(() => onComplete?.Invoke());
+            var currentPropData = propData.FirstOrDefault(x => x.type == currentProp);
+            var nextPropData = propData.FirstOrDefault(x => x.type == type);
+            Toggle(currentPropData.objectsToHide, 0);
+            Toggle(nextPropData.objectsToHide,  1);
+            onComplete?.Invoke();
+            currentProp = type;
         }
 
-        private Vector3 MoveDirection(PropData data, bool transitionToThis)
+        private void Toggle(List<Transform> currentPropObjectsToHide, int fadeValue)
         {
-            var direction = data.Direction == PropMoveDirection.Horizontal
-                ? data.Prop.transform.forward
-                : data.Prop.transform.up;
-            return direction * (transitionToThis ? 1 : -1);
+            var sequence = DOTween.Sequence();
+            foreach (var obj in currentPropObjectsToHide)
+            {
+                sequence.Join(obj.DOScale(fadeValue, 1));
+            }
         }
+    }
+
+    [Serializable]
+    internal class PropData
+    {
+        public PropTypes type;
+        public List<Transform> objectsToHide;
     }
 }

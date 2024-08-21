@@ -266,7 +266,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 07f44fe3e9c462146a7769b976c50ec4, type: 2}
+  - {fileID: 2100000, guid: a6320cd2ab9c4374f9df030fb21a7668, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -381,7 +381,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 07f44fe3e9c462146a7769b976c50ec4, type: 2}
+  - {fileID: 2100000, guid: a6320cd2ab9c4374f9df030fb21a7668, type: 2}
   - {fileID: 2100000, guid: ab035d7682921704a9015ac353311d57, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -514,7 +514,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 0
+  m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -542,14 +542,15 @@ MonoBehaviour:
   frontRightTransform: {fileID: 948405438201742482}
   rearLeftTransform: {fileID: 9188640840458259854}
   rearRightTransform: {fileID: 28636839611146925}
+  controlType: 0
   com: {fileID: 4827360100066541954}
-  maxSteerAngle: 30
+  maxSteerAngle: 50
   motorForce: 800
-  brakeForce: 500
-  steerSpeed: 10
+  brakeForce: 100
+  steerSpeed: 3
   driftTolerance: 0.5
-  driftFactor: 0.1
-  driftControl: 0.35
+  driftFactor: 0.4
+  driftControl: 0.01
   suspensionDistance: 0.1
   suspensionOffset: 0.03
   sidewaysFriction: 0.287
@@ -752,7 +753,7 @@ Transform:
   m_GameObject: {fileID: 5486273718691949984}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.429, z: -0.866}
+  m_LocalPosition: {x: 0, y: 0.452, z: -0.358}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

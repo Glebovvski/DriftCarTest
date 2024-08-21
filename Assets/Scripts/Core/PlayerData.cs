@@ -54,6 +54,12 @@ namespace Core
 
     public class CarSettings : ISaveable
     {
+        private Material carMaterial;
+        public CarSettings()
+        {
+            carMaterial = Resources.Load("Car") as Material;
+        }
+        
         public ControlType ControlType
         {
             get => controlType;
@@ -63,20 +69,41 @@ namespace Core
         //car prop
         public Color CarColor
         {
-            get => carColor;
-            private set { carColor = value; }
+            get => carMaterial.color;
+            private set
+            {
+                carColor = value;
+                carMaterial.color = value;
+            }
         }
 
         public float Metallic
         {
-            get => metallic;
-            private set { metallic = value; }
+            get => carMaterial.GetFloat(MetallicID);
+            private set
+            {
+                metallic = value;
+                carMaterial.SetFloat(MetallicID, value);
+            }
+        }
+        
+        public float Smoothness
+        {
+            get => carMaterial.GetFloat(Glossiness);
+            private set
+            {
+                smoothness = value;
+                carMaterial.SetFloat(Glossiness, value);
+            }
         }
         //end car prop
 
         private ControlType controlType;
         private Color carColor;
         private float metallic;
+        private float smoothness;
+        private static readonly int MetallicID = Shader.PropertyToID("_Metallic");
+        private static readonly int Glossiness = Shader.PropertyToID("_Glossiness");
 
         public void SetCarColor(Color value)
         {
@@ -86,6 +113,11 @@ namespace Core
         public void SetMetallic(float value)
         {
             Metallic = value;
+        }
+        
+        public void SetSmoothness(float value)
+        {
+            Smoothness = value;
         }
 
         public void SetControlType(ControlType value)
@@ -152,6 +184,12 @@ namespace Core
         {
             CarSettings.SetMetallic(value);
         }
+        
+        public void SetSmoothness(float value)
+        {
+            CarSettings.SetSmoothness(value);
+        }
+
 
         public void SetControlType(ControlType value)
         {

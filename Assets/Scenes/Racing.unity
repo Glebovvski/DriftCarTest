@@ -2243,10 +2243,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 155b3ac668416314fa67897e32b5090e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hideOnAwake: 1
   bgImg: {fileID: 843948110}
+  popup: {fileID: 1703282440}
   endFadeColor: {r: 0, g: 0, b: 0, a: 0.58431375}
   goldIcon: {fileID: 1089631282}
-  popup: {fileID: 1703282440}
   goldText: {fileID: 1178655151}
   adBtn: {fileID: 2045015873}
   exitBtn: {fileID: 1795899961}
@@ -2325,7 +2326,6 @@ MonoBehaviour:
   _hud: {fileID: 1305070280}
   _endGamePopup: {fileID: 843948112}
   _car: {fileID: 1023153977}
-  _adsManager: {fileID: 761516373}
 --- !u!114 &934113344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2923,7 +2923,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 66.4
+  m_fontSize: 63
   m_fontSizeBase: 24
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -6071,30 +6071,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: brakeForce
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: steerSpeed
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: controlType
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: driftFactor
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: driftControl
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1014256358794962111, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: maxSteerAngle
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 2792218741957914664, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 36.47
@@ -6138,18 +6114,6 @@ PrefabInstance:
     - target: {fileID: 3311311803080157842, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
       propertyPath: m_Name
       value: Free Racing Car
-      objectReference: {fileID: 0}
-    - target: {fileID: 4827360100066541954, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.452
-      objectReference: {fileID: 0}
-    - target: {fileID: 4827360100066541954, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.358
-      objectReference: {fileID: 0}
-    - target: {fileID: 7495443279060062592, guid: 133308cdb8794744caaef026bde9e1f0, type: 3}
-      propertyPath: m_ImplicitCom
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
