@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac597e521780944bb1530a7cb46d5d7, type: 3}
+  m_Name: Cars Data
+  m_EditorClassIdentifier: 
+  Cars:
+  - <Car>k__BackingField: 0
+    <IsBought>k__BackingField: 1
+    <MotorForce>k__BackingField: 800
+    <MaxSteerAngle>k__BackingField: 30
+    <SteerSpeed>k__BackingField: 5
+    <CarTexture>k__BackingField: {fileID: 2800000, guid: 42c2cc04d64d557479f80b68c307d9d2, type: 3}
+    <CarMetallic>k__BackingField: {fileID: 0}
+    <CarRoughness>k__BackingField: {fileID: 0}
+    <CarNormal>k__BackingField: {fileID: 0}
+  - <Car>k__BackingField: 1
+    <IsBought>k__BackingField: 0
+    <MotorForce>k__BackingField: 1000
+    <MaxSteerAngle>k__BackingField: 40
+    <SteerSpeed>k__BackingField: 3
+    <CarTexture>k__BackingField: {fileID: 0}
+    <CarMetallic>k__BackingField: {fileID: 0}
+    <CarRoughness>k__BackingField: {fileID: 0}
+    <CarNormal>k__BackingField: {fileID: 0}
+  - <Car>k__BackingField: 2
+    <IsBought>k__BackingField: 0
+    <MotorForce>k__BackingField: 0
+    <MaxSteerAngle>k__BackingField: 0
+    <SteerSpeed>k__BackingField: 0
+    <CarTexture>k__BackingField: {fileID: 2800000, guid: d68d6e435b8376a44aaca44ac3ae17d5, type: 3}
+    <CarMetallic>k__BackingField: {fileID: 2800000, guid: c584212be666c6041acf06d6c09a1912, type: 3}
+    <CarRoughness>k__BackingField: {fileID: 2800000, guid: 6d51478a0cd160f46b78034ae153632c, type: 3}
+    <CarNormal>k__BackingField: {fileID: 0}
+  - <Car>k__BackingField: 3
+    <IsBought>k__BackingField: 0
+    <MotorForce>k__BackingField: 0
+    <MaxSteerAngle>k__BackingField: 0
+    <SteerSpeed>k__BackingField: 0
+    <CarTexture>k__BackingField: {fileID: 2800000, guid: 92aa4c8e0d67f46489af1c8bfda03dfb, type: 3}
+    <CarMetallic>k__BackingField: {fileID: 0}
+    <CarRoughness>k__BackingField: {fileID: 0}
+    <CarNormal>k__BackingField: {fileID: 2800000, guid: b0b9fe17184a8164ca3a847e29394795, type: 3}

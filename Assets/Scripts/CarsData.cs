@@ -11,7 +11,7 @@ public enum CarKey
     Opel
 }
 
-[CreateAssetMenu(fileName = "Audio Data", menuName = "Audio/AudioData", order = 1)]
+[CreateAssetMenu(fileName = "Cars Data", menuName = "Cars/Cars Data", order = 1)]
 public class CarsData : ScriptableObject
 {
     public List<CarData> Cars;
@@ -25,4 +25,8 @@ public class CarData
     [field: SerializeField] public float MotorForce { get; private set; }
     [field: SerializeField] public float MaxSteerAngle { get; private set; }
     [field: SerializeField] public float SteerSpeed { get; private set; }
+    [field: SerializeField] public Texture CarTexture { get; private set; }
+    [field: SerializeField] public Texture CarMetallic { get; private set; }
+    [field: SerializeField] public Texture CarRoughness { get; private set; }
+    [field: SerializeField] public Texture CarNormal { get; private set; }
 }

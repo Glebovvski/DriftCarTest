@@ -6,7 +6,7 @@ using UnityEngine;
 public class CarSelector : MonoBehaviour
 {
     [SerializeField] private CarsData data;
-    [SerializeField] private List<Car> cars;
+    [SerializeField] private List<CarProp> cars;
 
     private void Awake()
     {

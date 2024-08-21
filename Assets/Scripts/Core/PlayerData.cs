@@ -54,7 +54,7 @@ namespace Core
 
     public class CarSettings : ISaveable
     {
-        private CarKey selectedCar;
+        private CarKey selectedCar = CarKey.Free;
         private Material carMaterial;
         private Texture carTexture;
         public CarSettings()
@@ -68,6 +68,15 @@ namespace Core
             private set { controlType = value; }
         }
 
+        public CarKey SelectedCar
+        {
+            get => selectedCar;
+            private set
+            {
+                selectedCar = value;
+            }
+        }
+        
         //car prop
         public Color CarColor
         {
@@ -127,6 +136,11 @@ namespace Core
             ControlType = value;
         }
 
+        public void SetSelectedCar(CarKey value)
+        {
+            SelectedCar = value;
+        }
+        
         public void Save()
         {
         }
@@ -191,6 +205,8 @@ namespace Core
         {
             CarSettings.SetSmoothness(value);
         }
+
+        public void SetSelectedCar(CarKey value) => CarSettings.SetSelectedCar(value);
 
 
         public void SetControlType(ControlType value)
