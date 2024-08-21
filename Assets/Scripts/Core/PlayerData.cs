@@ -125,6 +125,8 @@ namespace Core
         private static readonly int MetallicID = Shader.PropertyToID("_Metallic");
         private static readonly int Glossiness = Shader.PropertyToID("_Glossiness");
         private static readonly int MainTex = Shader.PropertyToID("_MainTex");
+        private static readonly int MetallicGlossMap = Shader.PropertyToID("_MetallicGlossMap");
+        private static readonly int BumpMap = Shader.PropertyToID("_BumpMap");
 
         public void SetCarColor(Color value)
         {
@@ -159,10 +161,13 @@ namespace Core
                     carMaterial.SetTexture(MainTex, value);
                     break;
                 case TextureType.Metallic:
+                    carMaterial.SetTexture(MetallicGlossMap, value);
                     break;
                 case TextureType.Normal:
+                    carMaterial.SetTexture(BumpMap, value);
                     break;
                 case TextureType.Roughness:
+                    carMaterial.SetTexture(BumpMap, value);
                     break;
             }
         }
