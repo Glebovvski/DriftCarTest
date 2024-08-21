@@ -47,9 +47,17 @@ namespace Popup
 
         private void SetDefaultValues()
         {
+            SetCarTextures();
             colorPicker.SetColor(playerData.CarSettings.CarColor);
             metallicSlider.SetValueWithoutNotify(playerData.CarSettings.Metallic);
             smoothnessSlider.SetValueWithoutNotify(playerData.CarSettings.Smoothness);
+        }
+
+        private void SetCarTextures()
+        {
+            playerData.CarSettings.SetTexture(selectedCarData.CarTexture, TextureType.Albedo);
+            playerData.CarSettings.SetTexture(selectedCarData.CarMetallic, TextureType.Metallic);
+            playerData.CarSettings.SetTexture(selectedCarData.CarNormal, TextureType.Normal);
         }
 
         private void OnSmoothnessChange(float value)

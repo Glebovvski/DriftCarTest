@@ -27,6 +27,5 @@ public class CarData
     [field: SerializeField] public float SteerSpeed { get; private set; }
     [field: SerializeField] public Texture CarTexture { get; private set; }
     [field: SerializeField] public Texture CarMetallic { get; private set; }
-    [field: SerializeField] public Texture CarRoughness { get; private set; }
     [field: SerializeField] public Texture CarNormal { get; private set; }
 }

@@ -8,8 +8,7 @@ namespace Core
     {
         Albedo = 0,
         Metallic = 1,
-        Roughness = 2,
-        Normal = 3,
+        Normal = 2,
     }
 
     public interface ISaveable
@@ -164,9 +163,6 @@ namespace Core
                     carMaterial.SetTexture(MetallicGlossMap, value);
                     break;
                 case TextureType.Normal:
-                    carMaterial.SetTexture(BumpMap, value);
-                    break;
-                case TextureType.Roughness:
                     carMaterial.SetTexture(BumpMap, value);
                     break;
             }
