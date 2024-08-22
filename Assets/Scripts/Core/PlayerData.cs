@@ -1,6 +1,7 @@
 using System;
 using Car;
 using UnityEngine;
+using Zenject;
 
 namespace Core
 {
@@ -20,6 +21,12 @@ namespace Core
     {
         public event Action OnSoundVolumeChanged;
         public event Action OnMusicVolumeChanged;
+        private SaveManager _saveManager;
+
+        public GameSettings(SaveManager saveManager)
+        {
+            _saveManager = saveManager;
+        }
 
         public float MusicVolume
         {
@@ -28,6 +35,7 @@ namespace Core
             {
                 musicVolume = value;
                 OnMusicVolumeChanged?.Invoke();
+                Save();
             }
         }
 
@@ -38,6 +46,7 @@ namespace Core
             {
                 soundVolume = value;
                 OnSoundVolumeChanged?.Invoke();
+                Save();
             }
         }
 
@@ -56,6 +65,7 @@ namespace Core
 
         public void Save()
         {
+            _saveManager.SaveGameSettings(this);
         }
     }
 
@@ -68,21 +78,32 @@ namespace Core
         private Texture carMetallicTexture;
         private Texture carRoughnessTexture;
 
-        public CarSettings()
+        private SaveManager _saveManager;
+
+        public CarSettings(SaveManager saveManager)
         {
+            _saveManager = saveManager;
             carMaterial = Resources.Load("Car") as Material;
         }
 
         public ControlType ControlType
         {
             get => controlType;
-            private set { controlType = value; }
+            private set
+            {
+                controlType = value;
+                Save();
+            }
         }
 
         public CarKey SelectedCar
         {
             get => selectedCar;
-            private set { selectedCar = value; }
+            private set
+            {
+                selectedCar = value;
+                Save();
+            }
         }
 
         //car prop
@@ -93,6 +114,7 @@ namespace Core
             {
                 carColor = value;
                 carMaterial.color = value;
+                Save();
             }
         }
 
@@ -103,6 +125,7 @@ namespace Core
             {
                 metallic = value;
                 carMaterial.SetFloat(MetallicID, value);
+                Save();
             }
         }
 
@@ -113,6 +136,7 @@ namespace Core
             {
                 smoothness = value;
                 carMaterial.SetFloat(Glossiness, value);
+                Save();
             }
         }
         //end car prop
@@ -147,9 +171,19 @@ namespace Core
             ControlType = value;
         }
 
+        public void SetControlType(int value)
+        {
+            ControlType = (ControlType)value;
+        }
+
         public void SetSelectedCar(CarKey value)
         {
             SelectedCar = value;
+        }
+
+        public void SetSelectedCar(int value)
+        {
+            SelectedCar = (CarKey)value;
         }
 
         public void SetTexture(Texture value, TextureType type)
@@ -170,20 +204,21 @@ namespace Core
 
         public void Save()
         {
+            _saveManager.SaveCarSettings(this);
         }
     }
 
     public class PlayerData : ISaveable
     {
-        private readonly string goldKey = "gold";
-        private readonly string driftKey = "drift";
-        private readonly string carColorKey = "carColor";
-        private readonly string metallicKey = "metallic";
+        private SaveManager _saveManager;
 
-        public PlayerData()
+        [Inject]
+        public PlayerData(SaveManager saveManager)
         {
-            CarSettings = new();
-            GameSettings = new();
+            _saveManager = saveManager;
+            CarSettings = new(_saveManager);
+            GameSettings = new(_saveManager);
+            _saveManager.ReadPlayerData(this);
         }
 
         #region Data
@@ -198,13 +233,18 @@ namespace Core
             {
                 OnGoldAmountChanged?.Invoke(gold, value);
                 gold = value;
+                Save();
             }
         }
 
         public int DriftPoints
         {
             get => driftPoints;
-            private set { driftPoints = value; }
+            private set
+            {
+                driftPoints = value;
+                Save();
+            }
         }
 
         private int gold;
@@ -212,7 +252,7 @@ namespace Core
 
         #endregion
 
-        public event Action<int, int> OnGoldAmountChanged; 
+        public event Action<int, int> OnGoldAmountChanged;
 
         public void SetGold(int value)
         {
@@ -252,6 +292,7 @@ namespace Core
 
         public void Save()
         {
+            _saveManager.Save(this);
         }
 
         public bool TryPurchase(int price)

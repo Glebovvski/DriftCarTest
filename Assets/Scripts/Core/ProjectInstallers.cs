@@ -12,6 +12,7 @@ namespace Core
         public override void InstallBindings()
         {
             Container.Bind<PlayerData>().FromNew().AsSingle();
+            Container.Bind<SaveManager>().FromNew().AsSingle();
             Container.Bind<GameManager>().FromNew().AsSingle();
             Container.BindInstance(_iapManager);
             Container.BindInstance(_adsManager);
