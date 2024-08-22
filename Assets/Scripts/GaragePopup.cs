@@ -29,7 +29,7 @@ namespace Popup
         [Inject] private MainMenuPropsTransition transitionManager;
         [Inject] private PlayerData playerData;
         [Inject] private IAPPopup iapPopup;
-        
+
         private CarData selectedCarData;
 
         protected void Awake()
@@ -58,6 +58,13 @@ namespace Popup
             nextCarBtn.onClick.AddListener(OnNextCarClick);
             prevCarBtn.onClick.AddListener(OnPrevCarClick);
             buyBtn.onClick.AddListener(PurchaseCarBtnClick);
+            selectBtn.onClick.AddListener(SelectCar);
+        }
+
+        private void SelectCar()
+        {
+            playerData.CarSettings.SetSelectedCar(selectedCarData.Car);
+            UpdateCarInfo();
         }
 
         private void PurchaseCarBtnClick()
@@ -86,9 +93,10 @@ namespace Popup
         {
             priceText.text = selectedCarData.Price.ToString();
             buyBtn.image.color = playerData.CanPurchase(selectedCarData.Price) ? affordableColor : notAffordableColor;
-            
+
             buyBtn.gameObject.SetActive(!selectedCarData.IsBought);
-            selectBtn.gameObject.SetActive(selectedCarData.IsBought);
+            selectBtn.gameObject.SetActive(selectedCarData.IsBought &&
+                                           playerData.CarSettings.SelectedCar != selectedCarData.Car);
         }
 
         private void OnPrevCarClick()
