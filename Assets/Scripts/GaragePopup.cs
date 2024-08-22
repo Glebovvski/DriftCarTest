@@ -62,6 +62,7 @@ namespace Popup
 
         private void PurchaseCarBtnClick()
         {
+            audio.Play(Sounds.BtnClick);
             if (playerData.TryPurchase(selectedCarData.Price))
             {
                 selectedCarData.SetIsBought(true);
@@ -76,6 +77,7 @@ namespace Popup
 
         private void UpdateCar()
         {
+            audio.Play(Sounds.BtnClick);
             SetCarTextures();
             UpdateCarInfo();
         }

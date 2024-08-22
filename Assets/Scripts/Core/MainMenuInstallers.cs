@@ -15,6 +15,7 @@ namespace Core
 
         public override void InstallBindings()
         {
+            
             Container.BindInstance(_settingsPopup);
             Container.BindInstance(_mainMenuPropsTransition);
             Container.BindInstance(_garagePopup);

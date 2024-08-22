@@ -263,5 +263,10 @@ namespace Core
         {
             return Gold >= price;
         }
+
+        public void AddGold(int value)
+        {
+            Gold += value;
+        }
     }
 }
