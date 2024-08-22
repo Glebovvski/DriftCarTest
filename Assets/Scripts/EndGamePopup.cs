@@ -23,6 +23,7 @@ namespace Popup
         [Inject] private DriftCounter driftCounter;
         [Inject] private GameTimer gameTimer;
         [Inject] private PlayerData playerData;
+        [Inject] private GameManager gameManager;
 
         private int gold;
 
@@ -45,6 +46,7 @@ namespace Popup
         {
             playerData.SetGold(gold);
             playerData.SetDriftPoints(driftCounter.DriftCount);
+            gameManager.Exit();
         }
 
         private void TryShowRewardedAd()

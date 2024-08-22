@@ -29,6 +29,7 @@ namespace UI
         [Inject] private GaragePopup garagePopup;
         [Inject] private IAPPopup iapPopup;
         [Inject] private PlayerData playerData;
+        [Inject] private GameManager gameManager;
 
 
         private void Awake()
@@ -38,6 +39,7 @@ namespace UI
 
         private void Subscribe()
         {
+            singlePlayerBtn.onClick.AddListener(gameManager.Play);
             playerData.OnGoldAmountChanged += UpdateGold;
             UpdateGold(playerData.Gold, playerData.Gold);
             settingsBtn.onClick.AddListener(settingsPopup.Show);
