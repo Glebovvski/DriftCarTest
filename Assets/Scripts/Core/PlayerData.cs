@@ -194,7 +194,11 @@ namespace Core
         public int Gold
         {
             get => gold;
-            private set { gold = value; }
+            private set
+            {
+                OnGoldAmountChanged?.Invoke(gold, value);
+                gold = value;
+            }
         }
 
         public int DriftPoints
@@ -207,6 +211,8 @@ namespace Core
         private int driftPoints;
 
         #endregion
+
+        public event Action<int, int> OnGoldAmountChanged; 
 
         public void SetGold(int value)
         {
