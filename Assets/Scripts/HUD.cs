@@ -1,4 +1,6 @@
 using System;
+using Car;
+using Core;
 using DG.Tweening;
 using GameTools;
 using Popup;
@@ -27,10 +29,12 @@ namespace UI
         [Inject] private DriftCounter _driftCounter;
         [Inject] private GameTimer _gameTimer;
         [Inject] private EndGamePopup endGamePopup;
+        [Inject] private PlayerData _playerData;
 
         private void Awake()
         {
             Subscribe();
+            SetControlButtonsActive(_playerData.CarSettings.ControlType == ControlType.Buttons);
         }
 
         private void Subscribe()

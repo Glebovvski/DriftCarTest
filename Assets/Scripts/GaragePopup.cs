@@ -68,7 +68,7 @@ namespace Popup
 
         private void SelectCar()
         {
-            playerData.CarSettings.SetSelectedCar(selectedCarData.Car);
+            playerData.CarSettings.SetSelectedCar(selectedCarData.CarKey);
             UpdateCarInfo();
         }
 
@@ -101,7 +101,7 @@ namespace Popup
 
             buyBtn.gameObject.SetActive(!selectedCarData.IsBought);
             selectBtn.gameObject.SetActive(selectedCarData.IsBought &&
-                                           playerData.CarSettings.SelectedCar != selectedCarData.Car);
+                                           playerData.CarSettings.SelectedCar != selectedCarData.CarKey);
 
             UpdateSliderValue(motorSlider, selectedCarData.MotorForce);
             UpdateSliderValue(angleSlider, selectedCarData.MaxSteerAngle);
@@ -118,13 +118,13 @@ namespace Popup
 
         private void OnPrevCarClick()
         {
-            selectedCarData = carSelector.SelectPrevCar(selectedCarData.Car);
+            selectedCarData = carSelector.SelectPrevCar(selectedCarData.CarKey);
             UpdateCar();
         }
 
         private void OnNextCarClick()
         {
-            selectedCarData = carSelector.SelectNextCar(selectedCarData.Car);
+            selectedCarData = carSelector.SelectNextCar(selectedCarData.CarKey);
             UpdateCar();
         }
 

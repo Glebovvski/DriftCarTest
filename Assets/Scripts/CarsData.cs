@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Car;
 using Core;
 using UnityEngine;
 
@@ -33,7 +34,7 @@ public class CarsData : ScriptableObject, ISaveable
 [Serializable]
 public class CarData
 {
-    [field: SerializeField] public CarKey Car { get; private set; }
+    [field: SerializeField] public CarKey CarKey { get; private set; }
     [field: SerializeField] public bool IsBought { get; private set; }
     [field: SerializeField] public float MotorForce { get; private set; }
     [field: SerializeField] public float MaxSteerAngle { get; private set; }
@@ -42,6 +43,7 @@ public class CarData
     [field: SerializeField] public Texture CarTexture { get; private set; }
     [field: SerializeField] public Texture CarMetallic { get; private set; }
     [field: SerializeField] public Texture CarNormal { get; private set; }
+    [field: SerializeField] public CarController Car;
 
     public event Action OnPurchase;
     

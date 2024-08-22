@@ -1,3 +1,4 @@
+using Core;
 using GameTools;
 using UI;
 using UnityEngine;
@@ -25,7 +26,6 @@ namespace Car
         [Space(10)] public Transform frontLeftTransform, frontRightTransform;
         public Transform rearLeftTransform, rearRightTransform;
 
-        [SerializeField] private ControlType controlType;
 
         [Space(10)] [SerializeField] private Transform com;
         [SerializeField] private float maxSteerAngle = 30f;
@@ -54,14 +54,13 @@ namespace Car
 
         public bool IsDrifting => isDriftingApplied && rb.velocity.sqrMagnitude > driftTolerance * driftTolerance;
         private bool isDriftingApplied = false;
-        public ControlType ControlType => controlType;
 
         private bool autoGas = false;
 
         public bool IsControllable { get; private set; } = false;
 
         [Inject] private GameTimer _gameTimer;
-        [Inject] private HUD hud;
+        [Inject] private PlayerData _playerData;
 
         private void Start()
         {
@@ -75,8 +74,7 @@ namespace Car
 
         private void UpdateControlType()
         {
-            hud.SetControlButtonsActive(controlType == ControlType.Buttons);
-            autoGas = controlType == ControlType.Buttons;
+            autoGas = _playerData.CarSettings.ControlType == ControlType.Buttons;
         }
 
         private void OnEnable()

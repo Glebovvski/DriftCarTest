@@ -15,7 +15,13 @@ namespace GameTools
         public int DriftCount => driftCount;
         public event Action<int> OnUpdateDriftCounter;
 
-        [Inject] private CarController car;
+        private CarController car;
+
+        [Inject]
+        private void Construct(CarController _car)
+        {
+            car = _car;
+        }
 
         private void Start()
         {

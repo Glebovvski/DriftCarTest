@@ -13,17 +13,24 @@ namespace Core
         [SerializeField] private GameTimer _gameTimer;
         [SerializeField] private HUD _hud;
         [SerializeField] private EndGamePopup _endGamePopup;
-        [SerializeField] private CarController _car;
+        [SerializeField] private CarSpawner _carSpawner;
 
+        private CarController car;
+
+        [Inject] private PlayerData _playerData;
+        [Inject] private DiContainer _diContainer;
+        
         public override void InstallBindings()
         {
-            Container.BindInstance(_car);
+            Container.BindInstance(_carSpawner);
             Container.BindInstance(_gameTimer);
-            Container.BindInstance(_driftCounter);
-            Container.BindInstance(_endGamePopup);
             Container.BindInstance(_hud);
+            car = _carSpawner.SpawnSelectedCar(_playerData, _diContainer);
+            Container.BindInstance(_driftCounter);
+            Container.BindInstance(car).AsSingle();
+            Container.BindInstance(_endGamePopup);
 
-            _car.SetIsControllable(true);
+            car.SetIsControllable(true);
         }
     }
 }

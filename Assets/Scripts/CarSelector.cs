@@ -14,11 +14,12 @@ public class CarSelector : MonoBehaviour
     private void Awake()
     {
         data.Init();
+        SelectCar();
     }
 
     public CarData SelectCar()
     {
-        var carData = data.Cars.FirstOrDefault(x=> x.Car == _playerData.CarSettings.SelectedCar);
+        var carData = data.Cars.FirstOrDefault(x=> x.CarKey == _playerData.CarSettings.SelectedCar);
         if (carData == null)
             carData = data.Cars[0];
         
@@ -31,13 +32,13 @@ public class CarSelector : MonoBehaviour
     {
         foreach (var car in cars)
         {
-            car.Toggle(car.Car == carData.Car);
+            car.Toggle(car.Car == carData.CarKey);
         }
     }
 
     public CarData SelectPrevCar(CarKey car)
     {
-        int index = data.Cars.IndexOf(data.Cars.FirstOrDefault(x => x.Car == car))-1;
+        int index = data.Cars.IndexOf(data.Cars.FirstOrDefault(x => x.CarKey == car))-1;
         if (index < 0)
             index = data.Cars.Count - 1;
         var carData = data.Cars[index];
@@ -47,7 +48,7 @@ public class CarSelector : MonoBehaviour
 
     public CarData SelectNextCar(CarKey car)
     {
-        int index = data.Cars.IndexOf(data.Cars.FirstOrDefault(x => x.Car == car))+1;
+        int index = data.Cars.IndexOf(data.Cars.FirstOrDefault(x => x.CarKey == car))+1;
         if (index >= data.Cars.Count)
             index = 0;
         var carData = data.Cars[index];

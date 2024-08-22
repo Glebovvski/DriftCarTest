@@ -99,7 +99,7 @@ namespace Core
         {
             settings.SetMetallic(reader.Read<float>(MetallicKey));
             settings.SetSmoothness(reader.Read<float>(SmoothnessKey));
-            settings.SetCarColor(reader.Read<Vector4>(ColorKey));
+            settings.SetCarColor(reader.Read<Color>(ColorKey));
             settings.SetControlType(reader.Read<int>(ControlTypeKey));
             settings.SetSelectedCar(reader.Read<int>(SelectedCarKey));
         }
