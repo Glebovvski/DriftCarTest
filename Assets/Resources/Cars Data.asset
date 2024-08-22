@@ -15,7 +15,7 @@ MonoBehaviour:
   Cars:
   - <Car>k__BackingField: 0
     <IsBought>k__BackingField: 1
-    <MotorForce>k__BackingField: 800
+    <MotorForce>k__BackingField: 500
     <MaxSteerAngle>k__BackingField: 30
     <SteerSpeed>k__BackingField: 5
     <Price>k__BackingField: 0
@@ -23,7 +23,7 @@ MonoBehaviour:
     <CarMetallic>k__BackingField: {fileID: 0}
     <CarNormal>k__BackingField: {fileID: 0}
   - <Car>k__BackingField: 1
-    <IsBought>k__BackingField: 0
+    <IsBought>k__BackingField: 1
     <MotorForce>k__BackingField: 1000
     <MaxSteerAngle>k__BackingField: 40
     <SteerSpeed>k__BackingField: 3
@@ -33,18 +33,18 @@ MonoBehaviour:
     <CarNormal>k__BackingField: {fileID: 0}
   - <Car>k__BackingField: 2
     <IsBought>k__BackingField: 0
-    <MotorForce>k__BackingField: 0
-    <MaxSteerAngle>k__BackingField: 0
-    <SteerSpeed>k__BackingField: 0
+    <MotorForce>k__BackingField: 2000
+    <MaxSteerAngle>k__BackingField: 45
+    <SteerSpeed>k__BackingField: 7
     <Price>k__BackingField: 3000
     <CarTexture>k__BackingField: {fileID: 2800000, guid: d68d6e435b8376a44aaca44ac3ae17d5, type: 3}
     <CarMetallic>k__BackingField: {fileID: 2800000, guid: c584212be666c6041acf06d6c09a1912, type: 3}
     <CarNormal>k__BackingField: {fileID: 0}
   - <Car>k__BackingField: 3
     <IsBought>k__BackingField: 0
-    <MotorForce>k__BackingField: 0
-    <MaxSteerAngle>k__BackingField: 0
-    <SteerSpeed>k__BackingField: 0
+    <MotorForce>k__BackingField: 5000
+    <MaxSteerAngle>k__BackingField: 60
+    <SteerSpeed>k__BackingField: 5
     <Price>k__BackingField: 10000
     <CarTexture>k__BackingField: {fileID: 2800000, guid: 92aa4c8e0d67f46489af1c8bfda03dfb, type: 3}
     <CarMetallic>k__BackingField: {fileID: 0}

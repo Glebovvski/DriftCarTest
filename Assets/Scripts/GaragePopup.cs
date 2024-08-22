@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Core;
+using DG.Tweening;
 using GameTools;
 using TMPro;
 using UnityEngine;
@@ -24,6 +25,10 @@ namespace Popup
         [SerializeField] private Color affordableColor;
         [SerializeField] private Color notAffordableColor;
         [SerializeField] private CarSelector carSelector;
+
+        [SerializeField] private Slider motorSlider;
+        [SerializeField] private Slider angleSlider;
+        [SerializeField] private Slider steeringSlider;
 
 
         [Inject] private MainMenuPropsTransition transitionManager;
@@ -97,6 +102,18 @@ namespace Popup
             buyBtn.gameObject.SetActive(!selectedCarData.IsBought);
             selectBtn.gameObject.SetActive(selectedCarData.IsBought &&
                                            playerData.CarSettings.SelectedCar != selectedCarData.Car);
+
+            UpdateSliderValue(motorSlider, selectedCarData.MotorForce);
+            UpdateSliderValue(angleSlider, selectedCarData.MaxSteerAngle);
+            UpdateSliderValue(steeringSlider, selectedCarData.SteerSpeed);
+        }
+
+        private void UpdateSliderValue(Slider slider, float value)
+        {
+            DOTween.To(() => slider.value, x => 
+            {
+                slider.value = x;
+            }, value, 1f).SetEase(Ease.InOutQuad).Play();
         }
 
         private void OnPrevCarClick()

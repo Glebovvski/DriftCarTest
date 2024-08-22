@@ -55,10 +55,8 @@ namespace UI
                 goldText.text = odlValue.ToString();
             }, newValue, 2f).SetEase(Ease.InOutQuad);
 
-            // Tween to scale the text
             goldText.transform.DOScale(1.3f, 1f).SetEase(Ease.OutQuad).OnComplete(() =>
             {
-                // Scale back to normal size after the animation
                 goldText.transform.DOScale(1f, 1f).SetEase(Ease.InQuad);
             });
         }
