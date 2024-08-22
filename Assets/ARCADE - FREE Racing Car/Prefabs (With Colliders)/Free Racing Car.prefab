@@ -542,7 +542,6 @@ MonoBehaviour:
   frontRightTransform: {fileID: 948405438201742482}
   rearLeftTransform: {fileID: 9188640840458259854}
   rearRightTransform: {fileID: 28636839611146925}
-  controlType: 0
   com: {fileID: 4827360100066541954}
   maxSteerAngle: 50
   motorForce: 800
@@ -552,7 +551,7 @@ MonoBehaviour:
   driftFactor: 0.4
   driftControl: 0.01
   suspensionDistance: 0.1
-  suspensionOffset: 0.03
+  suspensionOffset: 0.16
   sidewaysFriction: 0.287
   forwardFriction: 1
 --- !u!1 &3962000127133956386

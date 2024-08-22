@@ -353,7 +353,6 @@ MonoBehaviour:
   frontRightTransform: {fileID: 2797828215942535564}
   rearLeftTransform: {fileID: 6088326157238325392}
   rearRightTransform: {fileID: 3143289635569057715}
-  controlType: 0
   com: {fileID: 4827360100066541954}
   maxSteerAngle: 50
   motorForce: 800
@@ -363,7 +362,7 @@ MonoBehaviour:
   driftFactor: 0.4
   driftControl: 0.01
   suspensionDistance: 0.1
-  suspensionOffset: 0.03
+  suspensionOffset: 0.16
   sidewaysFriction: 0.287
   forwardFriction: 1
 --- !u!1 &3962000127133956386
@@ -638,8 +637,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.027219, y: 1.0717614, z: 4.9883046}
-  m_Center: {x: 0.010150075, y: 0.68411684, z: 0.038642168}
+  m_Size: {x: 2.027219, y: 1.024818, z: 4.9883046}
+  m_Center: {x: 0.010150075, y: 0.70758855, z: 0.038642168}
 --- !u!4 &956307308568603958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1880317207959290724, guid: 669a0ade23534b144957fa97ad8a4527, type: 3}

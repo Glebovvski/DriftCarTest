@@ -20,8 +20,10 @@ public class CarSpawner : MonoBehaviour
         if (_playerData == null)
             Debug.LogError("PLAYER DATA IS NULL");
         var carKey = _playerData.CarSettings.SelectedCar;
-        var carPrefab = data.Cars.FirstOrDefault(x => x.CarKey == carKey).Car;
+        var carData = data.Cars.FirstOrDefault(x => x.CarKey == carKey);
 
-        return _diContainer.InstantiatePrefab(carPrefab,spawnPos.position, Quaternion.identity, null).GetComponent<CarController>();
+        var car = _diContainer.InstantiatePrefab(carData.Car,spawnPos.position, Quaternion.identity, null).GetComponent<CarController>();
+        car.SetCharacteristics(carData);
+        return car;
     }
 }

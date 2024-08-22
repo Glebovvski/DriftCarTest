@@ -72,6 +72,13 @@ namespace Car
             UpdateControlType();
         }
 
+        public void SetCharacteristics(CarData data)
+        {
+            motorForce = data.MotorForce;
+            steerSpeed = data.SteerSpeed;
+            maxSteerAngle = data.MaxSteerAngle;
+        }
+
         private void UpdateControlType()
         {
             autoGas = _playerData.CarSettings.ControlType == ControlType.Buttons;
@@ -216,6 +223,7 @@ namespace Car
             curve.asymptoteValue = forwardFriction;
             collider.forwardFriction = curve;
             curve.asymptoteValue = sidewaysFriction;
+            curve.stiffness = 0.4f;
             collider.sidewaysFriction = curve;
 
             spring.spring = 75000;

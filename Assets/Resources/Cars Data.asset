@@ -34,7 +34,7 @@ MonoBehaviour:
     <CarNormal>k__BackingField: {fileID: 0}
     Car: {fileID: 1014256358794962111, guid: d4e12715052d15b47ad108491fbc2a76, type: 3}
   - <CarKey>k__BackingField: 2
-    <IsBought>k__BackingField: 0
+    <IsBought>k__BackingField: 1
     <MotorForce>k__BackingField: 2000
     <MaxSteerAngle>k__BackingField: 45
     <SteerSpeed>k__BackingField: 7
@@ -44,10 +44,10 @@ MonoBehaviour:
     <CarNormal>k__BackingField: {fileID: 0}
     Car: {fileID: 1014256358794962111, guid: 4b77722a9b9de474e872bf66083f33c6, type: 3}
   - <CarKey>k__BackingField: 3
-    <IsBought>k__BackingField: 0
+    <IsBought>k__BackingField: 1
     <MotorForce>k__BackingField: 5000
-    <MaxSteerAngle>k__BackingField: 60
-    <SteerSpeed>k__BackingField: 5
+    <MaxSteerAngle>k__BackingField: 50
+    <SteerSpeed>k__BackingField: 7
     <Price>k__BackingField: 10000
     <CarTexture>k__BackingField: {fileID: 2800000, guid: 92aa4c8e0d67f46489af1c8bfda03dfb, type: 3}
     <CarMetallic>k__BackingField: {fileID: 0}
