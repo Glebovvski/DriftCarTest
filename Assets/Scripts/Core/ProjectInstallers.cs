@@ -1,3 +1,4 @@
+using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 
@@ -8,7 +9,7 @@ namespace Core
         [SerializeField] private AdsManager _adsManager;
         [SerializeField] private AudioManager _audioManager;
         [SerializeField] private IAPManager _iapManager;
-        
+
         public override void InstallBindings()
         {
             Container.Bind<SaveManager>().AsSingle();

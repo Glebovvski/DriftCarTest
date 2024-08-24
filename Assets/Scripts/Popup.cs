@@ -41,7 +41,7 @@ namespace Popup
 
         protected virtual void Hide()
         {
-            audio.Play(Sounds.BtnClose);
+            // audio.Play(Sounds.BtnClose);
 
             bgImg.color = new Color(0, 0, 0, 0);
             bgImg.transform.DOScale(0, 0);

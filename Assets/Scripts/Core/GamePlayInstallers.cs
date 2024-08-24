@@ -2,35 +2,38 @@ using Car;
 using GameTools;
 using Popup;
 using UI;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Core
 {
     public class GamePlayInstallers : MonoInstaller
     {
-        [SerializeField] private DriftCounter _driftCounter;
-        [SerializeField] private GameTimer _gameTimer;
         [SerializeField] private HUD _hud;
         [SerializeField] private EndGamePopup _endGamePopup;
-        [SerializeField] private CarSpawner _carSpawner;
+
+        [FormerlySerializedAs("_carSpawner")] [SerializeField]
+        private CarManager carManager;
 
         private CarController car;
 
         [Inject] private PlayerData _playerData;
         [Inject] private DiContainer _diContainer;
-        
+
         public override void InstallBindings()
         {
-            Container.BindInstance(_carSpawner);
-            Container.BindInstance(_gameTimer);
+            // car = carManager.SpawnSelectedCar(_playerData, _diContainer);
+            Container.BindInstance(carManager);
             Container.BindInstance(_hud);
-            car = _carSpawner.SpawnSelectedCar(_playerData, _diContainer);
-            Container.BindInstance(_driftCounter);
-            Container.BindInstance(car).AsSingle();
             Container.BindInstance(_endGamePopup);
-
-            car.SetIsControllable(true);
+            // if (NetworkManager.Singleton.IsHost)
+            // {
+            //     _hud.SetCar(car);
+            //     _endGamePopup.SetCar(car);
+            //     _playerData.SetCar(carManager, car);
+            // }
         }
     }
 }

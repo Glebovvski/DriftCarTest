@@ -9,22 +9,17 @@ namespace GameTools
     {
         private const float TimeBetweenCounterUpdate = 0.1f;
 
+        private CarController car;
         private int driftCount;
         private float lastDriftCountUpdate;
 
         public int DriftCount => driftCount;
         public event Action<int> OnUpdateDriftCounter;
 
-        private CarController car;
-
-        [Inject]
-        private void Construct(CarController _car)
-        {
-            car = _car;
-        }
 
         private void Start()
         {
+            car = GetComponent<CarController>();
             driftCount = 0;
         }
 

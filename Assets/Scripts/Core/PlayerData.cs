@@ -212,6 +212,8 @@ namespace Core
     {
         private SaveManager _saveManager;
 
+        private CarController car;
+
         [Inject]
         public PlayerData(SaveManager saveManager)
         {
@@ -314,6 +316,15 @@ namespace Core
         public void AddGold(int value)
         {
             Gold += value;
+        }
+
+        public void SetCar(CarManager manager, CarController _car = null)
+        {
+            if (_car != null)
+                car = _car;
+            else
+                car = manager.GetCar();
+            car.SetIsAutoGas(CarSettings.ControlType == ControlType.Buttons);
         }
     }
 }

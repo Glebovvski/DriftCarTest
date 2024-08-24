@@ -1,5 +1,6 @@
 using GameTools;
 using Popup;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -15,7 +16,6 @@ namespace Core
 
         public override void InstallBindings()
         {
-            
             Container.BindInstance(_settingsPopup);
             Container.BindInstance(_mainMenuPropsTransition);
             Container.BindInstance(_garagePopup);

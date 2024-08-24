@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Zenject;
 
 public class GameManager
 {
     public void Play()
     {
-        SceneManager.LoadScene("Racing");
+        NetworkManager.Singleton.SceneManager.LoadScene("Racing", LoadSceneMode.Single);
     }
 
     public void Exit()
     {
-        SceneManager.LoadScene("MainMenu");
+        NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
     }
 }

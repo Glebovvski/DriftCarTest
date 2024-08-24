@@ -1,7 +1,9 @@
+using Car;
 using Core;
 using DG.Tweening;
 using GameTools;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -20,24 +22,36 @@ namespace Popup
 
         [SerializeField] private RectTransform driftCounterTransform;
 
-        [Inject] private DriftCounter driftCounter;
-        [Inject] private GameTimer gameTimer;
+        [Inject] private CarManager _carManager;
         [Inject] private PlayerData playerData;
         [Inject] private GameManager gameManager;
+        [Inject] private AdsManager adsManager;
+
+        private CarController car;
 
         private int gold;
 
 
-        protected void Awake()
+        // protected void Awake()
+        // {
+        //     if (!NetworkManager.Singleton.IsHost)
+        //         return;
+        //     car = _carManager.GetCar();
+        //     Init();
+        //     base.Awake();
+        // }
+        
+
+        private void Init()
         {
             Subscribe();
-            base.Awake();
+            Hide();
         }
 
         private void Subscribe()
         {
-            gameTimer.OnGameplayEnd += Show;
-            AdsManager.Instance.OnRewardedAdAvailable += SetAdBtnInteractable;
+            // GameTimer.Instance.OnGameplayEnd += Show;
+            // adsManager.OnRewardedAdAvailable += SetAdBtnInteractable;
             adBtn.onClick.AddListener(TryShowRewardedAd);
             exitBtn.onClick.AddListener(Exit);
         }
@@ -45,13 +59,13 @@ namespace Popup
         private void Exit()
         {
             playerData.SetGold(gold);
-            playerData.SetDriftPoints(driftCounter.DriftCount);
+            playerData.SetDriftPoints(car.DriftCounter.DriftCount);
             gameManager.Exit();
         }
 
         private void TryShowRewardedAd()
         {
-            AdsManager.Instance.ShowRewarded(GetRewardForAd);
+            adsManager.ShowRewarded(GetRewardForAd);
         }
 
         private void GetRewardForAd()
@@ -72,8 +86,8 @@ namespace Popup
 
         private void Unsubscribe()
         {
-            gameTimer.OnGameplayEnd -= Show;
-            AdsManager.Instance.OnRewardedAdAvailable -= SetAdBtnInteractable;
+            GameTimer.Instance.OnGameplayEnd -= Show;
+            adsManager.OnRewardedAdAvailable -= SetAdBtnInteractable;
         }
 
         private void CountGold()
@@ -84,7 +98,7 @@ namespace Popup
             Vector3 startPosition = driftCounterTransform.position;
             Vector3 endPosition = goldText.transform.position;
 
-            for (int i = 0; i < driftCounter.DriftCount; i++)
+            for (int i = 0; i < car.DriftCounter.DriftCount; i++)
             {
                 // Create a dummy Image to animate from the drift counter to the gold text
                 GameObject dummyObject = new GameObject("GoldDummy");
@@ -104,7 +118,7 @@ namespace Popup
                 float jumpPower = 90f; // Adjust the jump height
                 int numJumps = 1; // Number of jumps
                 sequence.Append(goldRect
-                    .DOJump(endPosition, jumpPower, numJumps, (float)1 / (float)driftCounter.DriftCount)
+                    .DOJump(endPosition, jumpPower, numJumps, (float)1 / (float)car.DriftCounter.DriftCount)
                     .SetEase(Ease.OutQuad));
 
                 // Scale the gold text when the dummy image reaches the position
@@ -142,6 +156,15 @@ namespace Popup
         private void OnDestroy()
         {
             Unsubscribe();
+        }
+
+        public void SetCar(CarController _car = null)
+        {
+            if (_car != null)
+                car = _car;
+            else
+                car = _carManager.GetCar();
+            Init();
         }
     }
 }

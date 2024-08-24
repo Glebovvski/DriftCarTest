@@ -1,13 +1,15 @@
+using Cinemachine;
 using Core;
 using GameTools;
 using UI;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Car
 {
-
     public enum ControlType
     {
         Keyboard,
@@ -15,7 +17,7 @@ namespace Car
     }
 
     [RequireComponent(typeof(Rigidbody))]
-    public class CarController : MonoBehaviour
+    public class CarController : NetworkBehaviour
     {
         private const int WHEELS_COUNT = 4;
         public InputActionAsset inputActions;
@@ -26,6 +28,7 @@ namespace Car
         [Space(10)] public Transform frontLeftTransform, frontRightTransform;
         public Transform rearLeftTransform, rearRightTransform;
 
+        [SerializeField] private DriftCounter driftCounter;
 
         [Space(10)] [SerializeField] private Transform com;
         [SerializeField] private float maxSteerAngle = 30f;
@@ -58,18 +61,42 @@ namespace Car
         private bool autoGas = false;
 
         public bool IsControllable { get; private set; } = false;
+        public DriftCounter DriftCounter => driftCounter;
 
-        [Inject] private GameTimer _gameTimer;
-        [Inject] private PlayerData _playerData;
+        private CinemachineVirtualCamera _camera;
+
+        // [Inject] private GameTimer _gameTimer;
+        private PlayerData playerData;
+
+        public PlayerData PlayerData => playerData;
 
         private void Start()
         {
             Wheels = new WheelCollider[WHEELS_COUNT];
             SetupWheels();
             rb = GetComponent<Rigidbody>();
-            _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
+            if (!IsOwner)
+                return;
+            // _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
 
-            UpdateControlType();
+            // UpdateControlType();
+        }
+
+        public override void OnNetworkSpawn()
+        {
+            this.enabled = true;
+            base.OnNetworkSpawn();
+            SetIsControllable(true);
+            _camera = GetComponentInChildren<CinemachineVirtualCamera>();
+            
+            if (IsOwner)
+            {
+                _camera.Priority = 10;
+            }
+            else
+            {
+                _camera.Priority = 0;
+            }
         }
 
         public void SetCharacteristics(CarData data)
@@ -79,13 +106,15 @@ namespace Car
             maxSteerAngle = data.MaxSteerAngle;
         }
 
-        private void UpdateControlType()
-        {
-            autoGas = _playerData.CarSettings.ControlType == ControlType.Buttons;
-        }
+        // private void UpdateControlType()
+        // {
+        //     autoGas = _playerData.CarSettings.ControlType == ControlType.Buttons;
+        // }
 
         private void OnEnable()
         {
+            if (!IsOwner) return;
+            
             inputActions["Driving/Steer"].performed += ctx => steeringInput = ctx.ReadValue<float>();
             inputActions["Driving/Steer"].canceled += ctx => steeringInput = 0f;
 
@@ -104,16 +133,52 @@ namespace Car
             inputActions.Disable();
         }
 
+        private void HandleInputServerAuth()
+        {
+            HandleInputServerRPC(steeringInput, accelerationInput);
+        }
+
+        [ServerRpc(RequireOwnership = false)]
+        private void HandleInputServerRPC(float steeringInput, float accelerationInput)
+        {
+            float targetSteerAngle = (IsDrifting ? currentSteerAngle : maxSteerAngle) * steeringInput;
+            currentSteerAngle =
+                IsDrifting
+                    ? currentSteerAngle
+                    : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
+            Wheels[0].steerAngle = currentSteerAngle;
+            Wheels[1].steerAngle = currentSteerAngle;
+
+            accelerationInput = autoGas ? GetAccelerationValueWithAutoGas() : accelerationInput;
+            Wheels[0].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
+            Wheels[1].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
+
+            if (isHandbraking)
+            {
+                Wheels[2].brakeTorque = brakeForce;
+                Wheels[3].brakeTorque = brakeForce;
+            }
+            else
+            {
+                Wheels[2].brakeTorque = brakeInput * brakeForce;
+                Wheels[3].brakeTorque = brakeInput * brakeForce;
+            }
+        }
+
+
         private void FixedUpdate()
         {
+            if (!IsOwner)
+                return;
             HandleDownForce();
             if (!IsControllable)
                 return;
 
-            HandleSteering();
-            HandleMotor();
+            // HandleSteering();
+            // HandleMotor();
+            HandleInputServerAuth();
             ApplyDrift();
-            UpdateWheelPoses();
+            UpdateWheelPosesServerRpc();
         }
 
         private void HandleDownForce()
@@ -157,8 +222,8 @@ namespace Car
             return isHandbraking ? Mathf.Min(accelerationInput, 0) : 1;
         }
 
-
-        private void UpdateWheelPoses()
+        [ServerRpc(RequireOwnership = false)]
+        private void UpdateWheelPosesServerRpc()
         {
             UpdateWheelPose(Wheels[0], frontLeftTransform);
             UpdateWheelPose(Wheels[1], frontRightTransform);
@@ -246,6 +311,16 @@ namespace Car
                 Wheels[2].brakeTorque = brakeForce;
                 Wheels[3].brakeTorque = brakeForce;
             }
+        }
+
+        public void SetIsAutoGas(bool value)
+        {
+            autoGas = value;
+        }
+
+        public void SetPlayerData(PlayerData _playerData)
+        {
+            playerData = _playerData;
         }
     }
 }

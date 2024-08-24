@@ -5,6 +5,7 @@ using DG.Tweening;
 using GameTools;
 using Popup;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using Zenject;
 
@@ -26,12 +27,24 @@ namespace UI
 
         private bool gamePlayTimerBlip = false;
 
-        [Inject] private DriftCounter _driftCounter;
-        [Inject] private GameTimer _gameTimer;
+        [Inject] private CarManager _carManager;
         [Inject] private EndGamePopup endGamePopup;
         [Inject] private PlayerData _playerData;
 
+        private CarController car;
+
         private void Awake()
+        {
+            //     if (!NetworkManager.Singleton.IsHost)
+            //         return;
+            //     car = _carManager.GetCar();
+            //     Init();
+            // if (!NetworkManager.Singleton.IsHost)
+            //     return;
+            // Subscribe();
+        }
+
+        private void Init()
         {
             Subscribe();
             SetControlButtonsActive(_playerData.CarSettings.ControlType == ControlType.Buttons);
@@ -39,8 +52,8 @@ namespace UI
 
         private void Subscribe()
         {
-            _driftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
-            _gameTimer.OnUpdateGameTimer += UpdateGamePlayTimer;
+            // GameTimer.Instance.OnUpdateGameTimer += UpdateGamePlayTimer;
+            car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
         }
 
         public void UpdateDriftCounter(int value)
@@ -94,15 +107,23 @@ namespace UI
 
         private void Unsubscribe()
         {
-            _driftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
-            _gameTimer.OnUpdateGameTimer -= UpdateGamePlayTimer;
+            car.DriftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
+            GameTimer.Instance.OnUpdateGameTimer -= UpdateGamePlayTimer;
         }
 
         public void SetControlButtonsActive(bool value)
         {
             carControlBtns.SetActive(value);
         }
+
+        public void SetCar(CarController _car = null)
+        {
+            if (_car != null)
+                car = _car;
+            else
+                car = _carManager.GetCar();
+            // SetControlButtonsActive(car.PlayerData.CarSettings.ControlType == ControlType.Buttons);
+            Init();
+        }
     }
 }
-
-

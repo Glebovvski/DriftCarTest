@@ -7,6 +7,7 @@ using GameTools;
 using Popup;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Zenject;
 
@@ -20,7 +21,7 @@ namespace UI
         [SerializeField] private TMP_Text goldText;
         [SerializeField] private Button iapBtn;
         
-        [SerializeField] private Button singlePlayerBtn;
+        [SerializeField] private Button playBtn;
         [SerializeField] private Button onlineBtn;
 
         [Inject] private MainMenuPropsTransition transitionManager;
@@ -39,7 +40,8 @@ namespace UI
 
         private void Subscribe()
         {
-            singlePlayerBtn.onClick.AddListener(gameManager.Play);
+            playBtn.onClick.AddListener(gameManager.Play);
+            // onlineBtn.onClick.AddListener(gameManager.Play);
             playerData.OnGoldAmountChanged += UpdateGold;
             UpdateGold(playerData.Gold, playerData.Gold);
             settingsBtn.onClick.AddListener(settingsPopup.Show);
