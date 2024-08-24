@@ -11,7 +11,7 @@ using Zenject;
 
 namespace UI
 {
-    public class HUD : MonoBehaviour
+    public class HUD : NetworkBehaviour
     {
         private const float BlipDuration = 1f;
         private const float BlipScale = 1.3f;
@@ -27,13 +27,10 @@ namespace UI
 
         private bool gamePlayTimerBlip = false;
 
-        [Inject] private CarManager _carManager;
-        [Inject] private EndGamePopup endGamePopup;
-        [Inject] private PlayerData _playerData;
+        [SerializeField] private CarController car;
 
-        private CarController car;
 
-        private void Awake()
+        private void OnEnable()
         {
             //     if (!NetworkManager.Singleton.IsHost)
             //         return;
@@ -44,16 +41,26 @@ namespace UI
             // Subscribe();
         }
 
-        private void Init()
+        public void Init(CarController _car)
         {
-            Subscribe();
-            SetControlButtonsActive(_playerData.CarSettings.ControlType == ControlType.Buttons);
+            if (IsOwner)
+            {
+                car = _car;
+                car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
+            // SetControlButtonsActive(car.PlayerData.CarSettings.ControlType == ControlType.Buttons);
+            }
+            else
+            {
+                gameObject.SetActive(false);
+            }
+            // Subscribe();
         }
 
         private void Subscribe()
         {
             // GameTimer.Instance.OnUpdateGameTimer += UpdateGamePlayTimer;
-            car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
+
+            // car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
         }
 
         public void UpdateDriftCounter(int value)
@@ -107,8 +114,8 @@ namespace UI
 
         private void Unsubscribe()
         {
-            car.DriftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
-            GameTimer.Instance.OnUpdateGameTimer -= UpdateGamePlayTimer;
+            // car.DriftCounter.OnUpdateDriftCounter -= UpdateDriftCounter;
+            // GameTimer.Instance.OnUpdateGameTimer -= UpdateGamePlayTimer;
         }
 
         public void SetControlButtonsActive(bool value)
@@ -116,14 +123,14 @@ namespace UI
             carControlBtns.SetActive(value);
         }
 
-        public void SetCar(CarController _car = null)
-        {
-            if (_car != null)
-                car = _car;
-            else
-                car = _carManager.GetCar();
-            // SetControlButtonsActive(car.PlayerData.CarSettings.ControlType == ControlType.Buttons);
-            Init();
-        }
+        // public void SetCar(CarController _car = null)
+        // {
+        //     if (_car != null)
+        //         car = _car;
+        //     else
+        //         car = _carManager.GetCar();
+        //     // SetControlButtonsActive(car.PlayerData.CarSettings.ControlType == ControlType.Buttons);
+        //     Init();
+        // }
     }
 }

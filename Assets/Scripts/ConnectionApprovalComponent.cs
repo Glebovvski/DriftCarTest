@@ -14,7 +14,7 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
     public NetworkPrefabsList prefabs;
 
     private CarManager carManager;
-    private HUD hud;
+    // private HUD hud;
     private EndGamePopup endGamePopup;
     [Inject] private PlayerData playerData;
 
@@ -38,9 +38,9 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
         do
         {
             carManager = FindObjectOfType<CarManager>();
-            hud = FindObjectOfType<HUD>();
+            // hud = FindObjectOfType<HUD>();
             endGamePopup = FindObjectOfType<EndGamePopup>();
-        } while (!carManager && !hud && !endGamePopup);
+        } while (!carManager && !endGamePopup);
 
         ApproveRequest(request, response);
     }
@@ -59,9 +59,10 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
         carManager.SpawnClientCar(clientId,playerData);
         var car = carManager.GetCar();
         car.SetIsControllable(true);
+        car.SetPlayerData(playerData);
         // response.PlayerPrefabHash = car.GetComponent<NetworkObject>().PrefabIdHash;
         // car.GetComponent<NetworkObject>().ChangeOwnership(clientId);
-        hud.SetCar();
+        // hud.SetCar();
         endGamePopup.SetCar();
         GameTimer.Instance.SetCar();
         playerData.SetCar(carManager);

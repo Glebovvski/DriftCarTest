@@ -4,6 +4,7 @@ using System.Linq;
 using Car;
 using Core;
 using Unity.Netcode;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Zenject;
@@ -27,6 +28,8 @@ public class CarManager : NetworkBehaviour // MonoBehaviour
 
     [SerializeField] private List<PlayerCarData> PlayerCarData;
 
+    public List<PlayerCarData> Cars => PlayerCarData;
+
     private void Awake()
     {
         PlayerCarData = new();
@@ -46,7 +49,7 @@ public class CarManager : NetworkBehaviour // MonoBehaviour
 
     private CarController SpawnCar(ulong id, PlayerData playerData)
     {
-        var carKey = playerData.CarSettings.SelectedCar;
+        var carKey =  playerData.CarSettings.SelectedCar;
         var carData = data.Cars.FirstOrDefault(x => x.CarKey == carKey);
 
         int index = Mathf.Clamp(PlayerCarData.Count, 0, clientSpawnPositions.Count);

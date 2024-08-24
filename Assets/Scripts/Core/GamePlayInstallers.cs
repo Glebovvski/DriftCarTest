@@ -11,7 +11,7 @@ namespace Core
 {
     public class GamePlayInstallers : MonoInstaller
     {
-        [SerializeField] private HUD _hud;
+        // [SerializeField] private HUD _hud;
         [SerializeField] private EndGamePopup _endGamePopup;
 
         [FormerlySerializedAs("_carSpawner")] [SerializeField]
@@ -26,7 +26,7 @@ namespace Core
         {
             // car = carManager.SpawnSelectedCar(_playerData, _diContainer);
             Container.BindInstance(carManager);
-            Container.BindInstance(_hud);
+            // Container.BindInstance(_hud);
             Container.BindInstance(_endGamePopup);
             // if (NetworkManager.Singleton.IsHost)
             // {

@@ -1,3 +1,4 @@
+using System;
 using Cinemachine;
 using Core;
 using GameTools;
@@ -20,6 +21,7 @@ namespace Car
     public class CarController : NetworkBehaviour
     {
         private const int WHEELS_COUNT = 4;
+
         public InputActionAsset inputActions;
 
         public GameObject frontLeftWheel, frontRightWheel;
@@ -28,9 +30,9 @@ namespace Car
         [Space(10)] public Transform frontLeftTransform, frontRightTransform;
         public Transform rearLeftTransform, rearRightTransform;
 
+        [SerializeField] private HUD hud;
         [SerializeField] private DriftCounter driftCounter;
 
-        [Space(10)] [SerializeField] private Transform com;
         [SerializeField] private float maxSteerAngle = 30f;
         [SerializeField] private float motorForce = 50f;
         [SerializeField] private float brakeForce = 100f;
@@ -68,19 +70,22 @@ namespace Car
         // [Inject] private GameTimer _gameTimer;
         private PlayerData playerData;
 
+        private float lastDriftCountUpdate;
         public PlayerData PlayerData => playerData;
+
 
         private void Start()
         {
             Wheels = new WheelCollider[WHEELS_COUNT];
             SetupWheels();
             rb = GetComponent<Rigidbody>();
-            if (!IsOwner)
-                return;
+            // if (!IsOwner)
+            //     return;
             // _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
 
             // UpdateControlType();
         }
+        
 
         public override void OnNetworkSpawn()
         {
@@ -88,9 +93,13 @@ namespace Car
             base.OnNetworkSpawn();
             SetIsControllable(true);
             _camera = GetComponentInChildren<CinemachineVirtualCamera>();
-            
+
+            driftCounter.Init(this);
+            hud.Init(this);
             if (IsOwner)
             {
+                driftCounter.enabled = true;
+                hud.enabled = true;
                 _camera.Priority = 10;
             }
             else
@@ -114,7 +123,7 @@ namespace Car
         private void OnEnable()
         {
             if (!IsOwner) return;
-            
+
             inputActions["Driving/Steer"].performed += ctx => steeringInput = ctx.ReadValue<float>();
             inputActions["Driving/Steer"].canceled += ctx => steeringInput = 0f;
 
@@ -133,39 +142,6 @@ namespace Car
             inputActions.Disable();
         }
 
-        private void HandleInputServerAuth()
-        {
-            HandleInputServerRPC(steeringInput, accelerationInput);
-        }
-
-        [ServerRpc(RequireOwnership = false)]
-        private void HandleInputServerRPC(float steeringInput, float accelerationInput)
-        {
-            float targetSteerAngle = (IsDrifting ? currentSteerAngle : maxSteerAngle) * steeringInput;
-            currentSteerAngle =
-                IsDrifting
-                    ? currentSteerAngle
-                    : Mathf.Lerp(currentSteerAngle, targetSteerAngle, steerSpeed * Time.deltaTime);
-            Wheels[0].steerAngle = currentSteerAngle;
-            Wheels[1].steerAngle = currentSteerAngle;
-
-            accelerationInput = autoGas ? GetAccelerationValueWithAutoGas() : accelerationInput;
-            Wheels[0].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
-            Wheels[1].motorTorque = accelerationInput * motorForce * (isHandbraking ? 0 : 1);
-
-            if (isHandbraking)
-            {
-                Wheels[2].brakeTorque = brakeForce;
-                Wheels[3].brakeTorque = brakeForce;
-            }
-            else
-            {
-                Wheels[2].brakeTorque = brakeInput * brakeForce;
-                Wheels[3].brakeTorque = brakeInput * brakeForce;
-            }
-        }
-
-
         private void FixedUpdate()
         {
             if (!IsOwner)
@@ -174,11 +150,10 @@ namespace Car
             if (!IsControllable)
                 return;
 
-            // HandleSteering();
-            // HandleMotor();
-            HandleInputServerAuth();
+            HandleSteering();
+            HandleMotor();
             ApplyDrift();
-            UpdateWheelPosesServerRpc();
+            UpdateWheelPoses();
         }
 
         private void HandleDownForce()
@@ -222,8 +197,7 @@ namespace Car
             return isHandbraking ? Mathf.Min(accelerationInput, 0) : 1;
         }
 
-        [ServerRpc(RequireOwnership = false)]
-        private void UpdateWheelPosesServerRpc()
+        private void UpdateWheelPoses()
         {
             UpdateWheelPose(Wheels[0], frontLeftTransform);
             UpdateWheelPose(Wheels[1], frontRightTransform);
@@ -240,6 +214,7 @@ namespace Car
             transform.position = pos;
             transform.rotation = quat;
         }
+
 
         private void ApplyDrift()
         {
@@ -268,7 +243,7 @@ namespace Car
                                 (rb.velocity.normalized - transform.right * (-steeringInput)).sqrMagnitude *
                                 accelerationInput; // Mathf.Abs(steeringInput)>driftTolerance;
         }
-
+        
         private void SetupWheels()
         {
             SetupWheelColliders(frontLeftWheel, 0);
