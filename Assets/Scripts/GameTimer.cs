@@ -1,8 +1,6 @@
 using System;
-using Car;
 using Unity.Netcode;
 using UnityEngine;
-using Zenject;
 
 namespace GameTools
 {
@@ -69,6 +67,11 @@ namespace GameTools
             if (!NetworkManager.Singleton.IsHost)
             {
                 timeLeft = hostTime;
+                if (timeLeft <= 0)
+                {
+                    OnUpdateGameTimer?.Invoke(0);
+                    OnGameplayEnd?.Invoke();
+                }
             }
         }
     }

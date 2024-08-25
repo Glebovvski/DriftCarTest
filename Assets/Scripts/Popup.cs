@@ -18,7 +18,8 @@ namespace Popup
 
         protected Sequence showSequence;
 
-        [Inject] protected AudioManager audio;
+        [Inject] 
+        protected AudioManager audio;
 
 
         protected void Awake()
@@ -29,7 +30,9 @@ namespace Popup
 
         public virtual void Show()
         {
-            audio.Play(Sounds.BtnClick);
+            if(audio == null)
+                audio = FindObjectOfType<AudioManager>();
+            audio?.Play(Sounds.BtnClick);
             showSequence = DOTween.Sequence();
 
             showSequence.Append(bgImg.transform.DOScale(1, 0));
@@ -41,7 +44,7 @@ namespace Popup
 
         protected virtual void Hide()
         {
-            // audio.Play(Sounds.BtnClose);
+            audio?.Play(Sounds.BtnClose);
 
             bgImg.color = new Color(0, 0, 0, 0);
             bgImg.transform.DOScale(0, 0);

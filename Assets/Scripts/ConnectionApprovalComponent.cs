@@ -1,70 +1,61 @@
 using System.Collections;
-using System.Collections.Generic;
 using Car;
 using Core;
-using GameTools;
-using Popup;
-using UI;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
 
-public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
+namespace NetworkTools
 {
-    public NetworkPrefabsList prefabs;
-
-    private CarManager carManager;
-    private EndGamePopup endGamePopup;
-    [Inject] private PlayerData playerData;
-
-    private void Start()
+    public class ConnectionApprovalComponent : MonoBehaviour
     {
-        NetworkManager.Singleton.ConnectionApprovalCallback +=
-            HandleJoinRequests;
-    }
+        public NetworkPrefabsList prefabs;
 
-    private void HandleJoinRequests(NetworkManager.ConnectionApprovalRequest request,
-        NetworkManager.ConnectionApprovalResponse response)
-    {
-        response.Pending = true;
-        StartCoroutine(InitDependenciesRoutine(request, response));
-    }
+        private CarManager carManager;
+        [Inject] private PlayerData playerData;
 
-    IEnumerator InitDependenciesRoutine(NetworkManager.ConnectionApprovalRequest request,
-        NetworkManager.ConnectionApprovalResponse response)
-    {
-        yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex > 0);
-        do
+        private void Start()
         {
-            carManager = FindObjectOfType<CarManager>();
-            endGamePopup = FindObjectOfType<EndGamePopup>();
-        } while (!carManager && !endGamePopup);
+            if (NetworkManager.Singleton.ConnectionApprovalCallback == null)
+                NetworkManager.Singleton.ConnectionApprovalCallback +=
+                    HandleJoinRequests;
+        }
 
-        ApproveRequest(request, response);
-    }
 
-    private void ApproveRequest(NetworkManager.ConnectionApprovalRequest request,
-        NetworkManager.ConnectionApprovalResponse response)
-    {
-        var clientId = request.ClientNetworkId;
+        private void HandleJoinRequests(NetworkManager.ConnectionApprovalRequest request,
+            NetworkManager.ConnectionApprovalResponse response)
+        {
+            response.Pending = true;
+            StartCoroutine(InitDependenciesRoutine(request, response));
+        }
 
-        Debug.LogError("GET CLIENT ID " + clientId);
+        IEnumerator InitDependenciesRoutine(NetworkManager.ConnectionApprovalRequest request,
+            NetworkManager.ConnectionApprovalResponse response)
+        {
+            yield return new WaitUntil(() => SceneManager.GetActiveScene().buildIndex > 0);
+            do
+            {
+                carManager = FindObjectOfType<CarManager>();
+            } while (!carManager);
 
-        // Additional connection data defined by user code
-        response.CreatePlayerObject = false;
-        response.Position = carManager.GetPosition((int)clientId);
-        var controlType = System.BitConverter.ToInt32(request.Payload);
-        response.PlayerPrefabHash = prefabs.PrefabList[0].SourceHashToOverride;
-        var car = carManager.SpawnClientCar(clientId,playerData,(ControlType)controlType);
-        // car.SetControlType((ControlType)controlType);
+            ApproveRequest(request, response);
+        }
 
-        // car.SetIsControllable(true);
-        // car.SetPlayerData(playerData);
-        endGamePopup.SetCar();
-        // GameTimer.Instance.SetCar();
-        playerData.SetCar(carManager);
-        response.Approved = true;
-        response.Pending = false;
+        private void ApproveRequest(NetworkManager.ConnectionApprovalRequest request,
+            NetworkManager.ConnectionApprovalResponse response)
+        {
+            var clientId = request.ClientNetworkId;
+
+            response.CreatePlayerObject = false;
+            response.Position = carManager.GetPosition((int)clientId);
+            var controlType = System.BitConverter.ToInt32(request.Payload);
+            response.PlayerPrefabHash = prefabs.PrefabList[0].SourceHashToOverride;
+            carManager.SpawnClientCar(clientId, playerData, (ControlType)controlType);
+
+            playerData.SetCar(carManager);
+            response.Approved = true;
+            response.Pending = false;
+        }
     }
 }

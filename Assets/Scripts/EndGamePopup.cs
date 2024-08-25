@@ -1,19 +1,17 @@
 using Car;
 using Core;
 using DG.Tweening;
-using GameTools;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 
 namespace Popup
 {
-
     public class EndGamePopup : Popup
     {
-
         [SerializeField] private Image goldIcon;
 
         [SerializeField] private TMP_Text goldText;
@@ -22,9 +20,7 @@ namespace Popup
 
         [SerializeField] private RectTransform driftCounterTransform;
 
-        [Inject] private CarManager _carManager;
-        [Inject] private PlayerData playerData;
-        [Inject] private GameManager gameManager;
+        private PlayerData playerData;
         [Inject] private AdsManager adsManager;
 
         private CarController car;
@@ -32,15 +28,12 @@ namespace Popup
         private int gold;
 
 
-        // protected void Awake()
-        // {
-        //     if (!NetworkManager.Singleton.IsHost)
-        //         return;
-        //     car = _carManager.GetCar();
-        //     Init();
-        //     base.Awake();
-        // }
-        
+        protected void Awake()
+        {
+            Init();
+            base.Awake();
+        }
+
 
         private void Init()
         {
@@ -50,22 +43,33 @@ namespace Popup
 
         private void Subscribe()
         {
-            // GameTimer.Instance.OnGameplayEnd += Show;
-            // adsManager.OnRewardedAdAvailable += SetAdBtnInteractable;
+            if (adsManager == null)
+                adsManager = FindObjectOfType<AdsManager>();
+
+            adsManager.OnRewardedAdAvailable += SetAdBtnInteractable;
             adBtn.onClick.AddListener(TryShowRewardedAd);
-            exitBtn.onClick.AddListener(Exit);
+            if (!NetworkManager.Singleton.IsHost)
+            {
+                exitBtn.gameObject.SetActive(false);
+            }
+            else
+                exitBtn.onClick.AddListener(Exit);
         }
 
         private void Exit()
         {
-            playerData.SetGold(gold);
-            playerData.SetDriftPoints(car.DriftCounter.DriftCount);
-            gameManager.Exit();
+            if (playerData != null)
+            {
+                playerData.AddGold(gold);
+                playerData.SetDriftPoints(car.DriftCounter.DriftCount);
+            }
+
+            NetworkManager.Singleton.SceneManager.LoadScene("MainMenu", LoadSceneMode.Single);
         }
 
         private void TryShowRewardedAd()
         {
-            adsManager.ShowRewarded(GetRewardForAd);
+            adsManager?.ShowRewarded(GetRewardForAd);
         }
 
         private void GetRewardForAd()
@@ -86,7 +90,6 @@ namespace Popup
 
         private void Unsubscribe()
         {
-            GameTimer.Instance.OnGameplayEnd -= Show;
             adsManager.OnRewardedAdAvailable -= SetAdBtnInteractable;
         }
 
@@ -158,12 +161,10 @@ namespace Popup
             Unsubscribe();
         }
 
-        public void SetCar(CarController _car = null)
+        public void SetCar(CarController _car, PlayerData _playerData)
         {
-            if (_car != null)
-                car = _car;
-            else
-                car = _carManager.GetCar();
+            playerData = _playerData;
+            car = _car;
             Init();
         }
     }

@@ -48,8 +48,7 @@ public class CarManager : NetworkBehaviour
             Car = car,
             ControlType = type
         });
-        // car.SetPlayerData(playerData);
-        car.Init(this);
+        car.SetPlayerData(playerData);
         var carNetwork = car.GetComponent<NetworkObject>();
         carNetwork.SpawnWithOwnership(id);
         car.SetCharacteristics(carData);

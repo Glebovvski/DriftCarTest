@@ -4,6 +4,7 @@ using Car;
 using Core;
 using DG.Tweening;
 using GameTools;
+using Popup;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -17,7 +18,7 @@ namespace UI
 
         [SerializeField] private TMP_Text driftCountText;
         [SerializeField] private TMP_Text gameplayTimerText;
-
+        [SerializeField] private EndGamePopup endGamePopup;
         [SerializeField] private GameObject carControlBtns;
 
         [SerializeField] private Color warningColor;
@@ -27,18 +28,7 @@ namespace UI
         private bool gamePlayTimerBlip = false;
 
         [SerializeField] private CarController car;
-
-
-        private void OnEnable()
-        {
-            //     if (!NetworkManager.Singleton.IsHost)
-            //         return;
-            //     car = _carManager.GetCar();
-            //     Init();
-            // if (!NetworkManager.Singleton.IsHost)
-            //     return;
-            // Subscribe();
-        }
+        
 
         public void Init(CarController _car)
         {
@@ -58,8 +48,7 @@ namespace UI
         private void Subscribe()
         {
             GameTimer.Instance.OnUpdateGameTimer += UpdateGamePlayTimer;
-
-            // car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
+            GameTimer.Instance.OnGameplayEnd += endGamePopup.Show;
         }
 
         public void UpdateDriftCounter(int value)

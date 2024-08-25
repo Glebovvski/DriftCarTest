@@ -2,12 +2,11 @@ using System;
 using Cinemachine;
 using Core;
 using GameTools;
+using Popup;
 using UI;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
-using Zenject;
 
 namespace Car
 {
@@ -32,6 +31,7 @@ namespace Car
 
         [SerializeField] private HUD hud;
         [SerializeField] private DriftCounter driftCounter;
+        [SerializeField] private EndGamePopup endGamePopup;
 
         [SerializeField] private float maxSteerAngle = 30f;
         [SerializeField] private float motorForce = 50f;
@@ -62,14 +62,12 @@ namespace Car
 
         private bool autoGas = false;
 
-        private CarManager _carManager;
 
         public bool IsControllable { get; private set; } = false;
         public DriftCounter DriftCounter => driftCounter;
 
         private CinemachineVirtualCamera _camera;
 
-        // [Inject] private GameTimer _gameTimer;
         private PlayerData playerData;
 
         private float lastDriftCountUpdate;
@@ -81,32 +79,26 @@ namespace Car
             Wheels = new WheelCollider[WHEELS_COUNT];
             SetupWheels();
             rb = GetComponent<Rigidbody>();
-            // if (!IsOwner)
-            //     return;
-            // _gameTimer.OnGameplayEnd += () => SetIsControllable(false);
-
-            // UpdateControlType();
         }
 
         public override void OnNetworkSpawn()
         {
             this.enabled = true;
             base.OnNetworkSpawn();
-            Debug.LogError("ON SPAWN");
             SetIsControllable(true);
             _camera = GetComponentInChildren<CinemachineVirtualCamera>();
 
             driftCounter.Init(this);
             hud.Init(this);
-            // hud?.SetControlButtonsActive(autoGas);
+                endGamePopup.SetCar(this, playerData);
             if (IsOwner)
             {
-                autoGas = true;// _carManager.GetControlType(NetworkManager.Singleton.LocalClientId) == ControlType.Buttons;
+                autoGas = true;
                 driftCounter.enabled = true;
                 hud.enabled = true;
                 _camera.Priority = 10;
-                // UpdateControlType();
-                // autoGas = true;
+                GameTimer.Instance.OnGameplayEnd += () => SetIsControllable(false);
+                
                 hud?.SetControlButtonsActive(autoGas);
             }
             else
@@ -114,8 +106,6 @@ namespace Car
                 _camera.Priority = 0;
             }
         }
-        
-        
 
         public void SetCharacteristics(CarData data)
         {
@@ -124,20 +114,6 @@ namespace Car
             maxSteerAngle = data.MaxSteerAngle;
         }
 
-        public void SetControlType(ControlType type)
-        {
-            autoGas = type == ControlType.Buttons;
-            Debug.LogError("IS OWNER: " + IsOwner +" ID: "+OwnerClientId+"\nData: "+type);
-
-            // hud.enabled = true;
-            // hud.gameObject.SetActive(true);
-            hud?.SetControlButtonsActive(autoGas);
-        }
-        
-        private void UpdateControlType()
-        {
-            autoGas = playerData.CarSettings.ControlType == ControlType.Buttons;
-        }
 
         private void OnEnable()
         {
@@ -261,7 +237,7 @@ namespace Car
                                 (rb.velocity.normalized - transform.right * (-steeringInput)).sqrMagnitude *
                                 accelerationInput; // Mathf.Abs(steeringInput)>driftTolerance;
         }
-        
+
         private void SetupWheels()
         {
             SetupWheelColliders(frontLeftWheel, 0);
@@ -308,22 +284,7 @@ namespace Car
 
         public void SetPlayerData(PlayerData _playerData)
         {
-            Debug.LogError("TRY SET PLAYER DATA");
-            // if (!IsOwner)
-            // {
-            //     Debug.LogError("NOT OWNER");
-            //     return;
-            // }
-            Debug.LogError("Construct");
             playerData = _playerData;
-            autoGas = playerData.CarSettings.ControlType == ControlType.Buttons;
-
-        }
-
-        public void Init(CarManager carManager)
-        {
-            Debug.LogError("INIT");
-            _carManager = carManager;
         }
     }
 }

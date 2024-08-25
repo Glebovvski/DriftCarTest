@@ -27,7 +27,13 @@ public class GameController : MonoBehaviour
     private void Join()
     {
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.BitConverter.GetBytes((int)_playerData.CarSettings.ControlType);
+        NetworkManager.Singleton.OnClientDisconnectCallback += Leave;
         NetworkManager.Singleton.StartClient();
+    }
+
+    private void Leave(ulong obj)
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void TryStopHost(Scene scene, LoadSceneMode arg1)
@@ -38,7 +44,6 @@ public class GameController : MonoBehaviour
 
     private void Host()
     {
-        Debug.LogError(_playerData.CarSettings.ControlType.ToString());
         NetworkManager.Singleton.NetworkConfig.ConnectionData = System.BitConverter.GetBytes((int)_playerData.CarSettings.ControlType);
         NetworkManager.Singleton.StartHost();
     }
