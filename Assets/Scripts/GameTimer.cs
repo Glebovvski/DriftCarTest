@@ -17,10 +17,6 @@ namespace GameTools
         public event Action OnGameplayEnd;
         public event Action<float> OnUpdateGameTimer;
 
-        [Inject] private CarManager _carManager;
-
-        private CarController car;
-
         protected void Awake()
         {
             if (Instance == null)
