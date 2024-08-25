@@ -324,7 +324,7 @@ namespace Core
                 car = _car;
             else
                 car = manager.GetCar();
-            car.SetIsAutoGas(CarSettings.ControlType == ControlType.Buttons);
+            // car.SetIsAutoGas(CarSettings.ControlType == ControlType.Buttons);
         }
     }
 }

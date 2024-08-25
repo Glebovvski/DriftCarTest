@@ -1161,6 +1161,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 457355982}
+  - component: {fileID: 457355984}
   - component: {fileID: 457355983}
   m_Layer: 0
   m_Name: GameTimer
@@ -1197,6 +1198,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameplayTime: 1
+--- !u!114 &457355984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 457355981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 1487103987
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 0
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
 --- !u!1001 &494477185
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3420,6 +3442,7 @@ MonoBehaviour:
   gameplayTimerText: {fileID: 0}
   carControlBtns: {fileID: 0}
   warningColor: {r: 1, g: 0, b: 0, a: 1}
+  car: {fileID: 0}
 --- !u!1001 &1336228241
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5242,12 +5265,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 55bb13be724c30e4bb5f57f0c6972647, type: 2}
-  hostSpawnPos: {fileID: 124401844}
   clientSpawnPositions:
   - {fileID: 94050367}
   - {fileID: 706261969}
   - {fileID: 1933002717}
-  PlayerCarData: []
 --- !u!114 &2054076520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5263,7 +5284,7 @@ MonoBehaviour:
   GlobalObjectIdHash: 2133541033
   InScenePlacedSourceGlobalObjectIdHash: 0
   AlwaysReplicateAsRoot: 0
-  SynchronizeTransform: 1
+  SynchronizeTransform: 0
   ActiveSceneSynchronization: 0
   SceneMigrationSynchronization: 1
   SpawnWithObservers: 1

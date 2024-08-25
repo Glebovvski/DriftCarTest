@@ -1,13 +1,12 @@
 using System;
+using System.Collections.Generic;
 using Car;
 using Core;
 using DG.Tweening;
 using GameTools;
-using Popup;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
-using Zenject;
 
 namespace UI
 {
@@ -53,12 +52,12 @@ namespace UI
             {
                 gameObject.SetActive(false);
             }
-            // Subscribe();
+            Subscribe();
         }
 
         private void Subscribe()
         {
-            // GameTimer.Instance.OnUpdateGameTimer += UpdateGamePlayTimer;
+            GameTimer.Instance.OnUpdateGameTimer += UpdateGamePlayTimer;
 
             // car.DriftCounter.OnUpdateDriftCounter += UpdateDriftCounter;
         }

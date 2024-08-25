@@ -34,7 +34,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -97.1}
+  m_AnchoredPosition: {x: 0, y: -97.099976}
   m_SizeDelta: {x: 453.18, y: 105.1982}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &856871973623165047
@@ -145,8 +145,8 @@ GameObject:
   - component: {fileID: 1080192557047250694}
   - component: {fileID: 1930846517810530259}
   - component: {fileID: 7715050280676177265}
-  - component: {fileID: 7819032309146587433}
-  - component: {fileID: 2947164785038628369}
+  - component: {fileID: 1057661938733950634}
+  - component: {fileID: 23078515739158519}
   m_Layer: 5
   m_Name: Brake
   m_TagString: Untagged
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7819032309146587433
+--- !u!114 &1057661938733950634
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2947164785038628369
+--- !u!114 &23078515739158519
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2236823686172673952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ccb74df0a23884bbbc26bce40ebbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControlPath: <Keyboard>/s
@@ -279,8 +279,8 @@ GameObject:
   - component: {fileID: 1308546040774953978}
   - component: {fileID: 3884011625148407789}
   - component: {fileID: 8148451742700315955}
-  - component: {fileID: 777516177320506971}
-  - component: {fileID: 6768791491899464780}
+  - component: {fileID: 5680069860946690935}
+  - component: {fileID: 3932027507792559061}
   m_Layer: 5
   m_Name: Decelerate
   m_TagString: Untagged
@@ -345,7 +345,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &777516177320506971
+--- !u!114 &5680069860946690935
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -389,7 +389,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6768791491899464780
+--- !u!114 &3932027507792559061
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2377667904224298035}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ccb74df0a23884bbbc26bce40ebbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControlPath: <Keyboard>/s
@@ -436,7 +436,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -154.04, y: -77.2}
+  m_AnchoredPosition: {x: -154.04004, y: -77.20001}
   m_SizeDelta: {x: 186.4319, y: 105.1982}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5252665538912202280
@@ -547,8 +547,8 @@ GameObject:
   - component: {fileID: 7704708067680441442}
   - component: {fileID: 2190105106403842813}
   - component: {fileID: 1829467398354492269}
-  - component: {fileID: 6901797535425403644}
-  - component: {fileID: 1099957926265798609}
+  - component: {fileID: 2182910033659546131}
+  - component: {fileID: 5576399685383838397}
   m_Layer: 5
   m_Name: Left
   m_TagString: Untagged
@@ -613,7 +613,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6901797535425403644
+--- !u!114 &2182910033659546131
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -657,7 +657,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1099957926265798609
+--- !u!114 &5576399685383838397
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -666,7 +666,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7101483143486970960}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ccb74df0a23884bbbc26bce40ebbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControlPath: <Keyboard>/a
@@ -681,8 +681,8 @@ GameObject:
   - component: {fileID: 7368410478951726436}
   - component: {fileID: 5910443752874736461}
   - component: {fileID: 3133778483357574971}
-  - component: {fileID: 4270720250530004294}
-  - component: {fileID: 829309756987117856}
+  - component: {fileID: 4674939393939299265}
+  - component: {fileID: 8484899239607723088}
   m_Layer: 5
   m_Name: Right
   m_TagString: Untagged
@@ -747,7 +747,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &4270720250530004294
+--- !u!114 &4674939393939299265
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -791,7 +791,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &829309756987117856
+--- !u!114 &8484899239607723088
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -800,7 +800,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7586250940797998503}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d54531977ecb194c95e2d3aa7a5d72a, type: 3}
+  m_Script: {fileID: 11500000, guid: 18ccb74df0a23884bbbc26bce40ebbee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_ControlPath: <Keyboard>/d
@@ -815,6 +815,8 @@ GameObject:
   - component: {fileID: 344037770476860062}
   - component: {fileID: 3765788541536699008}
   - component: {fileID: 3811578118500427928}
+  - component: {fileID: 4429842852026443998}
+  - component: {fileID: 8701839638151870254}
   m_Layer: 5
   m_Name: HUD
   m_TagString: Untagged
@@ -831,7 +833,7 @@ RectTransform:
   m_GameObject: {fileID: 8703422306742715362}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6532804711761361554}
@@ -859,15 +861,66 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8703422306742715362}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec0ed495c8af52d46a9cbde4c87193b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   driftCountText: {fileID: 4687385417844166314}
-  gameplayTimerText: {fileID: 0}
-  carControlBtns: {fileID: 165836354650110022}
+  gameplayTimerText: {fileID: 8227362767851636097}
+  carControlBtns:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   warningColor: {r: 1, g: 0, b: 0, a: 1}
+  car: {fileID: 0}
+--- !u!223 &4429842852026443998
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8703422306742715362}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 0
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_VertexColorAlwaysGammaSpace: 1
+  m_AdditionalShaderChannelsFlag: 25
+  m_UpdateRectTransformForStandalone: 0
+  m_SortingLayerID: 0
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
+--- !u!114 &8701839638151870254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8703422306742715362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 1
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 1920, y: 1080}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0.5
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &8797904014498492522
 GameObject:
   m_ObjectHideFlags: 0

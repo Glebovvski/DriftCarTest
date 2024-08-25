@@ -62,6 +62,8 @@ namespace Car
 
         private bool autoGas = false;
 
+        private CarManager _carManager;
+
         public bool IsControllable { get; private set; } = false;
         public DriftCounter DriftCounter => driftCounter;
 
@@ -85,28 +87,35 @@ namespace Car
 
             // UpdateControlType();
         }
-        
 
         public override void OnNetworkSpawn()
         {
             this.enabled = true;
             base.OnNetworkSpawn();
+            Debug.LogError("ON SPAWN");
             SetIsControllable(true);
             _camera = GetComponentInChildren<CinemachineVirtualCamera>();
 
             driftCounter.Init(this);
             hud.Init(this);
+            // hud?.SetControlButtonsActive(autoGas);
             if (IsOwner)
             {
+                autoGas = true;// _carManager.GetControlType(NetworkManager.Singleton.LocalClientId) == ControlType.Buttons;
                 driftCounter.enabled = true;
                 hud.enabled = true;
                 _camera.Priority = 10;
+                // UpdateControlType();
+                // autoGas = true;
+                hud?.SetControlButtonsActive(autoGas);
             }
             else
             {
                 _camera.Priority = 0;
             }
         }
+        
+        
 
         public void SetCharacteristics(CarData data)
         {
@@ -115,10 +124,20 @@ namespace Car
             maxSteerAngle = data.MaxSteerAngle;
         }
 
-        // private void UpdateControlType()
-        // {
-        //     autoGas = _playerData.CarSettings.ControlType == ControlType.Buttons;
-        // }
+        public void SetControlType(ControlType type)
+        {
+            autoGas = type == ControlType.Buttons;
+            Debug.LogError("IS OWNER: " + IsOwner +" ID: "+OwnerClientId+"\nData: "+type);
+
+            // hud.enabled = true;
+            // hud.gameObject.SetActive(true);
+            hud?.SetControlButtonsActive(autoGas);
+        }
+        
+        private void UpdateControlType()
+        {
+            autoGas = playerData.CarSettings.ControlType == ControlType.Buttons;
+        }
 
         private void OnEnable()
         {
@@ -129,7 +148,6 @@ namespace Car
 
             inputActions["Driving/Accelerate"].performed += ctx => accelerationInput = ctx.ReadValue<float>();
             inputActions["Driving/Accelerate"].canceled += ctx => accelerationInput = 0f;
-
 
             inputActions["Driving/Handbreak"].performed += ctx => isHandbraking = true;
             inputActions["Driving/Handbreak"].canceled += ctx => isHandbraking = false;
@@ -288,14 +306,24 @@ namespace Car
             }
         }
 
-        public void SetIsAutoGas(bool value)
-        {
-            autoGas = value;
-        }
-
         public void SetPlayerData(PlayerData _playerData)
         {
+            Debug.LogError("TRY SET PLAYER DATA");
+            // if (!IsOwner)
+            // {
+            //     Debug.LogError("NOT OWNER");
+            //     return;
+            // }
+            Debug.LogError("Construct");
             playerData = _playerData;
+            autoGas = playerData.CarSettings.ControlType == ControlType.Buttons;
+
+        }
+
+        public void Init(CarManager carManager)
+        {
+            Debug.LogError("INIT");
+            _carManager = carManager;
         }
     }
 }

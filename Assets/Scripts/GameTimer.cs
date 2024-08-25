@@ -6,17 +6,17 @@ using Zenject;
 
 namespace GameTools
 {
-    public class GameTimer : MonoBehaviour
+    public class GameTimer : NetworkBehaviour
     {
         public static GameTimer Instance { get; private set; }
-        
+
         [SerializeField] private float gameplayTime;
 
         private float timeLeft;
 
         public event Action OnGameplayEnd;
         public event Action<float> OnUpdateGameTimer;
-        
+
         [Inject] private CarManager _carManager;
 
         private CarController car;
@@ -26,21 +26,18 @@ namespace GameTools
             if (Instance == null)
             {
                 Instance = this;
+                DontDestroyOnLoad(this);
             }
             else
             {
                 Destroy(this);
             }
-            
-            if (!NetworkManager.Singleton.IsHost)
-                return;
+
             Init();
         }
 
-        private void Init()
+        public void Init()
         {
-            if(_carManager == null)
-                Debug.LogFormat("NO CAR MANAGER");
             timeLeft = gameplayTime * 60;
         }
 
@@ -48,23 +45,35 @@ namespace GameTools
         {
             if (timeLeft <= 0)
                 return;
-            timeLeft -= Time.deltaTime;
-            OnUpdateGameTimer?.Invoke(timeLeft);
-            if (timeLeft <= 0)
+            if (NetworkManager.Singleton.IsHost)
             {
-                car.SetIsControllable(false);
-                OnUpdateGameTimer?.Invoke(0);
-                OnGameplayEnd?.Invoke();
+                timeLeft -= Time.deltaTime;
+                SyncTimeClientRpc(timeLeft);
+                OnUpdateGameTimer?.Invoke(timeLeft);
+                if (timeLeft <= 0)
+                {
+                    OnUpdateGameTimer?.Invoke(0);
+                    OnGameplayEnd?.Invoke();
+                }
+            }
+            else
+            {
+                OnUpdateGameTimer?.Invoke(timeLeft);
+                if (timeLeft <= 0)
+                {
+                    OnUpdateGameTimer?.Invoke(0);
+                    OnGameplayEnd?.Invoke();
+                }
             }
         }
-        
-        public void SetCar(CarController _car = null)
+
+        [ClientRpc]
+        private void SyncTimeClientRpc(float hostTime)
         {
-            if (_car != null)
-                car = _car;
-            else
-                car = _carManager.GetCar();
-            Init();
+            if (!NetworkManager.Singleton.IsHost)
+            {
+                timeLeft = hostTime;
+            }
         }
     }
 }

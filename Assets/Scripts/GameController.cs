@@ -1,3 +1,4 @@
+using Core;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +10,8 @@ public class GameController : MonoBehaviour
     [SerializeField] private Button joinGame;
     [SerializeField] private Button hostGame;
 
+    [Inject] private PlayerData _playerData;
+    
     private void Awake()
     {
         Subscribe();
@@ -23,7 +26,7 @@ public class GameController : MonoBehaviour
 
     private void Join()
     {
-        // NetworkManager.Singleton.NetworkConfig.ConnectionData = System.Text.Encoding.ASCII.GetBytes("room password");
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = System.BitConverter.GetBytes((int)_playerData.CarSettings.ControlType);
         NetworkManager.Singleton.StartClient();
     }
 
@@ -35,6 +38,8 @@ public class GameController : MonoBehaviour
 
     private void Host()
     {
+        Debug.LogError(_playerData.CarSettings.ControlType.ToString());
+        NetworkManager.Singleton.NetworkConfig.ConnectionData = System.BitConverter.GetBytes((int)_playerData.CarSettings.ControlType);
         NetworkManager.Singleton.StartHost();
     }
 }

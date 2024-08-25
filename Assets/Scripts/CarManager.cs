@@ -4,50 +4,36 @@ using System.Linq;
 using Car;
 using Core;
 using Unity.Netcode;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
-using Zenject;
 
-[Serializable]
-public class PlayerCarData
+public class PlayerCarData 
 {
     public ulong ClientID;
     public CarController Car;
+    public ControlType ControlType;
 }
 
-public class CarManager : NetworkBehaviour // MonoBehaviour
+public class CarManager : NetworkBehaviour
 {
     [SerializeField] private CarsData data;
-    [SerializeField] private Transform hostSpawnPos;
-
     [SerializeField] private List<Transform> clientSpawnPositions;
 
-    // private PlayerData _playerData;
-    [Inject] private DiContainer _diContainer;
+    private List<PlayerCarData> PlayerCarData;
 
-    [SerializeField] private List<PlayerCarData> PlayerCarData;
-
-    public List<PlayerCarData> Cars => PlayerCarData;
 
     private void Awake()
     {
         PlayerCarData = new();
     }
 
-    public void SpawnClientCar(ulong id, PlayerData playerData)
+    public CarController SpawnClientCar(ulong id, PlayerData playerData, ControlType type)
     {
-        // if (_playerData == null || _diContainer == null)
-        //     return null;
-        var car = SpawnCar(id, playerData);
-        PlayerCarData.Add(new PlayerCarData()
-        {
-            ClientID = id,
-            Car = car
-        });
+        var car = SpawnCar(id, playerData,type);
+        
+        return car;
     }
 
-    private CarController SpawnCar(ulong id, PlayerData playerData)
+    private CarController SpawnCar(ulong id, PlayerData playerData, ControlType type)
     {
         var carKey =  playerData.CarSettings.SelectedCar;
         var carData = data.Cars.FirstOrDefault(x => x.CarKey == carKey);
@@ -56,28 +42,35 @@ public class CarManager : NetworkBehaviour // MonoBehaviour
         Vector3 spawnPos = clientSpawnPositions[index].position;
 
         var car = Instantiate(carData.Car, spawnPos, Quaternion.identity);
+        PlayerCarData.Add(new PlayerCarData()
+        {
+            ClientID = id,
+            Car = car,
+            ControlType = type
+        });
+        // car.SetPlayerData(playerData);
+        car.Init(this);
         var carNetwork = car.GetComponent<NetworkObject>();
-
-        carNetwork.SpawnWithOwnership(id, true);
+        carNetwork.SpawnWithOwnership(id);
         car.SetCharacteristics(carData);
         return car;
     }
 
-    public CarController GetClientCar(ulong id) => PlayerCarData.Find(x => x.ClientID == id).Car;
+    private PlayerCarData GetClientCar(ulong id) => PlayerCarData.Find(x => x.ClientID == id);
 
     public CarController GetCar()
     {
-        return GetClientCar(NetworkManager.Singleton.LocalClient.ClientId);
-    }
-
-    public Vector3? GetPosition()
-    {
-        int index = Mathf.Clamp(PlayerCarData.Count, 0, clientSpawnPositions.Count - 1);
-        return clientSpawnPositions[index].position;
+        return GetClientCar(NetworkManager.Singleton.LocalClient.ClientId).Car;
     }
 
     public Vector3? GetPosition(int index)
     {
+        index = Mathf.Clamp(index, 0, clientSpawnPositions.Count-1);
         return clientSpawnPositions[index].position;
+    }
+
+    public ControlType GetControlType(ulong id)
+    {
+        return GetClientCar(id).ControlType;
     }
 }

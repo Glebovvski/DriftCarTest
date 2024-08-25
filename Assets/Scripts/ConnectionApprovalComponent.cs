@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Car;
 using Core;
 using GameTools;
 using Popup;
@@ -14,7 +15,6 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
     public NetworkPrefabsList prefabs;
 
     private CarManager carManager;
-    // private HUD hud;
     private EndGamePopup endGamePopup;
     [Inject] private PlayerData playerData;
 
@@ -38,7 +38,6 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
         do
         {
             carManager = FindObjectOfType<CarManager>();
-            // hud = FindObjectOfType<HUD>();
             endGamePopup = FindObjectOfType<EndGamePopup>();
         } while (!carManager && !endGamePopup);
 
@@ -55,16 +54,15 @@ public class ConnectionApprovalComponent : MonoBehaviour // NetworkBehaviour
         // Additional connection data defined by user code
         response.CreatePlayerObject = false;
         response.Position = carManager.GetPosition((int)clientId);
+        var controlType = System.BitConverter.ToInt32(request.Payload);
         response.PlayerPrefabHash = prefabs.PrefabList[0].SourceHashToOverride;
-        carManager.SpawnClientCar(clientId,playerData);
-        var car = carManager.GetCar();
-        car.SetIsControllable(true);
-        car.SetPlayerData(playerData);
-        // response.PlayerPrefabHash = car.GetComponent<NetworkObject>().PrefabIdHash;
-        // car.GetComponent<NetworkObject>().ChangeOwnership(clientId);
-        // hud.SetCar();
+        var car = carManager.SpawnClientCar(clientId,playerData,(ControlType)controlType);
+        // car.SetControlType((ControlType)controlType);
+
+        // car.SetIsControllable(true);
+        // car.SetPlayerData(playerData);
         endGamePopup.SetCar();
-        GameTimer.Instance.SetCar();
+        // GameTimer.Instance.SetCar();
         playerData.SetCar(carManager);
         response.Approved = true;
         response.Pending = false;
